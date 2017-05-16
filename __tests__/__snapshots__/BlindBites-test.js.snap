@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Hello, Navigation!
+  </Text>
+  <MKTouchable
+    accessibilityComponentType={undefined}
+    accessibilityLabel={undefined}
+    accessibilityTraits={undefined}
+    accessible={true}
+    backgroundColor="#3F51B5"
+    enabled={true}
+    fab={true}
+    hitSlop={undefined}
+    maskBorderRadius={2}
+    maskBorderRadiusInPercent={50}
+    maskColor="rgba(255,255,255,0.15)"
+    maskDuration={200}
+    maskEnabled={true}
+    onChange={[Function]}
+    onLayout={[Function]}
+    onPress={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onTouch={[Function]}
+    pointerEvents="box-only"
+    rippleColor="rgba(255,255,255,0.2)"
+    rippleDuration={200}
+    rippleLocation="center"
+    shadowAniEnabled={true}
+    style={
+      Array [
+        Array [
+          Array [
+            Object {
+              "alignItems": "center",
+              "justifyContent": "center",
+              "padding": 8,
+            },
+            Object {
+              "backgroundColor": "#3F51B5",
+            },
+            Object {
+              "borderRadius": 24,
+              "height": 48,
+              "width": 48,
+            },
+            Object {
+              "elevation": 4,
+              "shadowColor": "black",
+              "shadowOffset": Object {
+                "height": 0.5,
+                "width": 0,
+              },
+              "shadowOpacity": 0.4,
+              "shadowRadius": 1,
+            },
+          ],
+          Object {},
+        ],
+        Object {
+          "shadowOffset": Object {
+            "height": 1,
+            "width": 0,
+          },
+        },
+      ]
+    }
+    testID={undefined}
+    text="BUTTON"
+    textStyle={
+      Array [
+        Object {
+          "fontSize": 14,
+        },
+        undefined,
+      ]
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Array [
+          Object {
+            "fontSize": 14,
+          },
+          undefined,
+        ]
+      }
+    >
+      BUTTON
+    </Text>
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(255,255,255,0.15)",
+          "borderRadius": 0,
+          "height": 1,
+          "left": -0,
+          "opacity": 0,
+          "overflow": "hidden",
+          "position": "absolute",
+          "top": -0,
+          "width": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "backgroundColor": "rgba(255,255,255,0.2)",
+            "borderRadius": 0,
+            "height": 0,
+            "left": 0,
+            "top": 0,
+            "transform": Array [
+              Object {
+                "scale": 0,
+              },
+            ],
+            "width": 0,
+          }
+        }
+      />
+    </View>
+  </MKTouchable>
+</View>
+`;
