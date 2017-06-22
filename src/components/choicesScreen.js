@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, Button} from 'react-native';
+import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
+
 
 export default class choicesScreen extends Component {
     constructor(props) {
     super(props);
     this.state = {
-      cards: ["1", "2", "3"],
+      cards: ["0"],
       swipedAllCards: false,
       swipeDirection: "",
       isSwipingBack: false,
@@ -16,7 +18,7 @@ export default class choicesScreen extends Component {
   renderCard = card => {
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card}</Text>
+        <Text style={styles.text}>{card.name}</Text>
       </View>
     );
   };
@@ -46,15 +48,34 @@ export default class choicesScreen extends Component {
     );
   };
 
-  jumpTo = () => {
-    this.swiper.jumpToCardIndex(2);
-  };
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition((position) =>{
+      fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+        position['coords']['latitude'] + ',' + position['coords']['longitude'] +
+        '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
+        method:'GET',
+        headers: {
+          'Accept': 'application/json'
+        }})
+        .then((response) => response.json())
+        .then((responseJson) =>{
+          console.log(responseJson.results);
+          this.setState({cards : responseJson.results});
+        })
+        .catch((error) =>{
+          console.error(error);
+        });
 
-
+    },
+    (error)=>{
+      console.log(error);
+    });
+  }
   static navigationOptions = {
     title: 'Choices',
   };
   render() {
+
     const { params } = this.props.navigation.state;
     return (
      <View style={styles.container}>
@@ -70,7 +91,6 @@ export default class choicesScreen extends Component {
          onSwipedAll={this.onSwipedAllCards}
        >
          <Button onPress={this.swipeBack} title="Swipe Back" />
-         <Button onPress={this.jumpTo} title="Jump to last index" />
        </Swiper>
      </View>
    );
@@ -83,11 +103,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#FF7F7F"
   },
   card: {
     flex: 1,
-    borderRadius: 4,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: "#E8E8E8",
     justifyContent: "center",

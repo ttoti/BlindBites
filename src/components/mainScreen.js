@@ -20,7 +20,7 @@ export default class HomeScreen extends Component {
                 shadowOpacity={.6}
                 shadowColor="black"
                 style={styles.button}
-                onPress={() => navigate('Choices', {data: 'Test'})}
+                onPress={() => navigate('Choices')}
                 >
                  <Image style={styles.image} pointerEvents="none" source={require('../assets/dice.png')} />
             </ColorFab>
