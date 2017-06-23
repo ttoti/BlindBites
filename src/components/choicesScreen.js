@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Button} from 'react-native';
+import {Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 
 export default class choicesScreen extends Component {
@@ -16,12 +17,15 @@ export default class choicesScreen extends Component {
     };
   }
   renderCard = card => {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.card}>
-        <Text style={styles.text}>{card.name}</Text>
+        <TouchableHighlight onPress={() => navigate('Information')} underlayColor="white">
+          <Text style={styles.text}>{card.name}</Text>
+        </TouchableHighlight>
       </View>
     );
-  };
+  }
 
   onSwipedAllCards = () => {
     this.setState({
@@ -47,7 +51,14 @@ export default class choicesScreen extends Component {
       cb
     );
   };
-
+  swipeRight = () => {
+    this.swipeBack();
+    const { navigate } = this.props.navigation;
+    navigate('Selection');
+  }
+  swipeLeft = () => {
+    this.refs.toast.show('hello world!',DURATION.LENGTH_LONG);
+  }
   componentDidMount(){
     navigator.geolocation.getCurrentPosition((position) =>{
       fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
@@ -61,6 +72,7 @@ export default class choicesScreen extends Component {
         .then((responseJson) =>{
           console.log(responseJson.results);
           this.setState({cards : responseJson.results});
+          this.forceUpdate();
         })
         .catch((error) =>{
           console.error(error);
@@ -75,23 +87,35 @@ export default class choicesScreen extends Component {
     title: 'Choices',
   };
   render() {
-
-    const { params } = this.props.navigation.state;
     return (
      <View style={styles.container}>
        <Swiper
          ref={swiper => {
            this.swiper = swiper;
          }}
-         onSwiped={this.onSwiped}
+         onSwipedRight={this.swipeRight}
+         onSwipedLeft={this.swipeLeft}
          cards={this.state.cards}
          cardIndex={this.state.cardIndex}
          cardVerticalMargin={80}
          renderCard={this.renderCard}
          onSwipedAll={this.onSwipedAllCards}
+         backgroundColor={"#FF7F7F"}
+         disableBottomSwipe={true}
+         disableTopSwipe={true}
        >
-         <Button onPress={this.swipeBack} title="Swipe Back" />
+       <Toast
+          ref="toast"
+          style={{backgroundColor:'red'}}
+          position='top'
+          positionValue={200}
+          fadeInDuration={750}
+          fadeOutDuration={1000}
+          opacity={0.8}
+          textStyle={{color:'red'}}
+        />
        </Swiper>
+
      </View>
    );
   }
@@ -111,7 +135,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#E8E8E8",
     justifyContent: "center",
-    backgroundColor: "white"
+    backgroundColor: "white",
+
   },
   text: {
     textAlign: "center",

@@ -9,7 +9,7 @@ export default class HomeScreen extends Component {
     header: null
   };
   render() {
-    const {navigate}  =  this.props.navigation;
+    const { navigate }  =  this.props.navigation;
     return (
         <View style={styles.container}>
             <Text>BlindBites</Text>
@@ -21,8 +21,8 @@ export default class HomeScreen extends Component {
                 shadowColor="black"
                 style={styles.button}
                 onPress={() => navigate('Choices')}
-                >
-                 <Image style={styles.image} pointerEvents="none" source={require('../assets/dice.png')} />
+            >
+              <Image style={styles.image} pointerEvents="none" source={require('../assets/dice.png')} />
             </ColorFab>
         </View>
     );
