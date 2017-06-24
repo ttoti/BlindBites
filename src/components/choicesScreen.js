@@ -86,6 +86,7 @@ export default class choicesScreen extends Component {
   static navigationOptions = {
     title: 'Choices',
   };
+
   render() {
     return (
      <View style={styles.container}>
@@ -104,6 +105,7 @@ export default class choicesScreen extends Component {
          disableBottomSwipe={true}
          disableTopSwipe={true}
        >
+       </Swiper>
        <Toast
           ref="toast"
           style={{backgroundColor:'red'}}
@@ -114,8 +116,6 @@ export default class choicesScreen extends Component {
           opacity={0.8}
           textStyle={{color:'red'}}
         />
-       </Swiper>
-
      </View>
    );
   }
