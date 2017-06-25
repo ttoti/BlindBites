@@ -3,7 +3,9 @@ import {Image, Text, View, StyleSheet, Button, TouchableHighlight} from 'react-n
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
+import {MKButton, MKColor} from 'react-native-material-kit';
 
+const ColorFab = MKButton.coloredFab().build();
 
 export default class choicesScreen extends Component {
     constructor(props) {
@@ -24,15 +26,29 @@ export default class choicesScreen extends Component {
     // </TouchableHighlight>
     return (
       <View style={styles.card}>
-        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{alignItems: 'center', paddingTop: 10}}>
           <Image
-            style={{width: 200, height: 200, borderRadius: 10, alignContent: "center"}}
+            style={{width: 200, height: 200, borderRadius: 10}}
             source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
           />
           </View>
         <Text style={styles.text}>{card.name}</Text>
+        <ColorFab
+            backgroundColor={'#F9F9EA'}
+            shadowRadius={1}
+            shadowOffset={{width:0, height:2}}
+            shadowOpacity={.6}
+            shadowColor="black"
+            style={styles.button}
+            onPress={this.pushInfoButton}
+        />
       </View>
     );
+  }
+
+  pushInfoButton = () => {
+    const { navigate } = this.props.navigation;
+    navigate('Information');
   }
 
   onSwipedAllCards = () => {
@@ -120,7 +136,6 @@ export default class choicesScreen extends Component {
          onSwipedRight={this.swipeRight}
          onSwipedLeft={this.swipeLeft}
          cards={this.state.cards}
-         cardIndex={this.state.cardIndex}
          marginTop={50}
          marginBottom={150}
          renderCard={this.renderCard}
@@ -158,19 +173,16 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "#E8E8E8",
-    justifyContent: "center",
     backgroundColor: "white",
-
+  },
+  button: {
+    height: 20,
+    justifyContent: 'center',
   },
   text: {
     textAlign: "center",
     fontSize: 20,
-    backgroundColor: "transparent"
-  },
-  done: {
-    textAlign: "center",
-    fontSize: 30,
-    color: "white",
-    backgroundColor: "transparent"
+    backgroundColor: "transparent",
+    paddingTop: 5,
   }
 });

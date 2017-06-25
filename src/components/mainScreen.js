@@ -9,10 +9,10 @@ export default class HomeScreen extends Component {
     header: null
   };
   render() {
-    const { navigate }  =  this.props.navigation;
+    const {navigate}  =  this.props.navigation;
     return (
         <View style={styles.container}>
-            <Text>BlindBites</Text>
+            <Text style={styles.title}>BlindBites</Text>
             <ColorFab
                 backgroundColor={'#F9F9EA'}
                 shadowRadius={2}
@@ -34,6 +34,12 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#FF7F7F'
+  },
+  title: {
+    color: "white",
+    fontSize: 60,
+    paddingBottom: 70,
+    fontFamily: 'Verdana',
   },
   button: {
     height: 250,
