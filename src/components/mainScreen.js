@@ -40,6 +40,7 @@ var styles = StyleSheet.create({
     fontSize: 60,
     paddingBottom: 70,
     fontFamily: 'Verdana',
+    fontStyle: 'italic',
   },
   button: {
     height: 250,
