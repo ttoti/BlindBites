@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
+import {Image, Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
@@ -18,11 +18,19 @@ export default class choicesScreen extends Component {
   }
   renderCard = card => {
     const { navigate } = this.props.navigation;
+    // <Text style={styles.text}>{card.price_level}</Text>
+    // <Text style={styles.text}>{card.rating}</Text>
+    // <TouchableHighlight onPress={() => navigate('Information')} underlayColor="white">
+    // </TouchableHighlight>
     return (
       <View style={styles.card}>
-        <TouchableHighlight onPress={() => navigate('Information')} underlayColor="white">
-          <Text style={styles.text}>{card.name}</Text>
-        </TouchableHighlight>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Image
+            style={{width: 200, height: 200, borderRadius: 10, alignContent: "center"}}
+            source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+          />
+          </View>
+        <Text style={styles.text}>{card.name}</Text>
       </View>
     );
   }
@@ -57,10 +65,23 @@ export default class choicesScreen extends Component {
     navigate('Selection');
   }
   swipeLeft = () => {
-    this.refs.toast.show('hello world!',DURATION.LENGTH_LONG);
+    this.refs.toast.show('Card removed',DURATION.LENGTH_LONG);
+  }
+
+  shuffleResults = (results) => {
+    var currentIndex = results.length, temporaryValue, randomIndex;
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = results[currentIndex];
+      results[currentIndex] = results[randomIndex];
+      results[randomIndex] = temporaryValue;
+    }
+    return results;
   }
   componentDidMount(){
-    navigator.geolocation.getCurrentPosition((position) =>{
+    navigator.geolocation.getCurrentPosition((position) => {
       fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
         position['coords']['latitude'] + ',' + position['coords']['longitude'] +
         '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
@@ -70,9 +91,10 @@ export default class choicesScreen extends Component {
         }})
         .then((response) => response.json())
         .then((responseJson) =>{
-          console.log(responseJson.results);
-          this.setState({cards : responseJson.results});
+          var shuffledCards = this.shuffleResults(responseJson.results);
+          this.setState({cards : shuffledCards});
           this.forceUpdate();
+          console.log(this.state.cards);
         })
         .catch((error) =>{
           console.error(error);
@@ -88,6 +110,7 @@ export default class choicesScreen extends Component {
   };
 
   render() {
+
     return (
      <View style={styles.container}>
        <Swiper
@@ -98,23 +121,24 @@ export default class choicesScreen extends Component {
          onSwipedLeft={this.swipeLeft}
          cards={this.state.cards}
          cardIndex={this.state.cardIndex}
-         cardVerticalMargin={80}
+         marginTop={50}
+         marginBottom={150}
          renderCard={this.renderCard}
          onSwipedAll={this.onSwipedAllCards}
          backgroundColor={"#FF7F7F"}
          disableBottomSwipe={true}
          disableTopSwipe={true}
-       >
-       </Swiper>
+         animateOpacity={true}
+       />
        <Toast
           ref="toast"
-          style={{backgroundColor:'red'}}
-          position='top'
+          style={{backgroundColor:'grey'}}
+          position='bottom'
           positionValue={200}
           fadeInDuration={750}
           fadeOutDuration={1000}
           opacity={0.8}
-          textStyle={{color:'red'}}
+          textStyle={{color:'white'}}
         />
      </View>
    );
@@ -140,7 +164,7 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "center",
-    fontSize: 50,
+    fontSize: 20,
     backgroundColor: "transparent"
   },
   done: {
