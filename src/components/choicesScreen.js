@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Image, Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
+import {Image, Modal, Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
 import {MKButton, MKColor} from 'react-native-material-kit';
+
 import CardComp from './CardComp';
 
 const ColorFab = MKButton.coloredFab().build();
@@ -11,25 +12,34 @@ const ColorFab = MKButton.coloredFab().build();
 export default class choicesScreen extends Component {
     constructor(props) {
     super(props);
+    this.callModal = this.callModal.bind(this);
     this.state = {
       cards: ["0"],
       swipedAllCards: false,
       swipeDirection: "",
       isSwipingBack: false,
-      cardIndex: 0
+      cardIndex: 0,
+      currentCardIndex: 0,
+      modalVisible: false,
     };
   }
-  renderCard = card => {
-    return (
-      <CardComp card={card}/>
-    );
+
+  static navigationOptions = {
+    title: 'Choices',
+  };
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
-  onSwipedAllCards = () => {
-    this.setState({
-      swipedAllCards: true
-    });
-  };
+  renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal}/>) };
+
+  onSwipedAllCards = () => this.setState({ swipedAllCards: true });
+
+  callModal = () => {
+    var currentCard = this.state.cards[this.state.currentCardIndex];
+    this.setModalVisible(true);
+    console.log("Wot");
+  }
 
   swipeBack = () => {
     if (!this.state.isSwipingBack) {
@@ -54,10 +64,12 @@ export default class choicesScreen extends Component {
     this.swipeBack();
     const { navigate } = this.props.navigation;
     navigate('Selection');
-  }
+  };
+
   swipeLeft = () => {
     this.refs.toast.show('Card removed',DURATION.LENGTH_LONG);
-  }
+    this.state.currentCardIndex++;
+  };
 
   shuffleResults = (results) => {
     var currentIndex = results.length, temporaryValue, randomIndex;
@@ -70,7 +82,7 @@ export default class choicesScreen extends Component {
       results[randomIndex] = temporaryValue;
     }
     return results;
-  }
+  };
 
   componentDidMount(){
     navigator.geolocation.getCurrentPosition((position) => {
@@ -97,13 +109,29 @@ export default class choicesScreen extends Component {
       console.log(error);
     });
   }
-  static navigationOptions = {
-    title: 'Choices',
-  };
 
   render() {
     return (
      <View style={styles.container}>
+     <Modal
+         animationType={"slide"}
+         transparent={false}
+         visible={this.state.modalVisible}
+         onRequestClose={() => {alert("Modal has been closed.")}}
+         >
+        <View style={{marginTop: 22}}>
+         <View>
+           <Text>Hello World!</Text>
+
+           <TouchableHighlight onPress={() => {
+             this.setModalVisible(!this.state.modalVisible)
+           }}>
+             <Text>Hide Modal</Text>
+           </TouchableHighlight>
+
+         </View>
+        </View>
+       </Modal>
        <Swiper
          ref={swiper => {
            this.swiper = swiper;
@@ -136,9 +164,6 @@ export default class choicesScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  box1: {
-    flex: 1
-  },
   container: {
     flex: 1,
     backgroundColor: "#FF7F7F"

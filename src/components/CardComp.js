@@ -8,14 +8,10 @@ export default class CardComp extends Component {
     constructor(props) {
     super(props);
   }
-  pushInfoButton = () => {
-    console.log("wot");
-  }
+
   render() {
     // <Text style={styles.text}>{card.price_level}</Text>
     // <Text style={styles.text}>{card.rating}</Text>
-    // <TouchableHighlight onPress={() => navigate('Information')} underlayColor="white">
-    // </TouchableHighlight>
     return (
       <View style={styles.card}>
         <View style={{alignItems: 'center', paddingTop: 10}}>
@@ -32,7 +28,7 @@ export default class CardComp extends Component {
             shadowOpacity={.6}
             shadowColor="black"
             style={styles.button}
-            onPress={this.pushInfoButton}
+            onPress={this.props.callbackModal}
         />
       </View>
     );
