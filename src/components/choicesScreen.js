@@ -77,8 +77,8 @@ export default class choicesScreen extends Component {
   renderSwiper = () => {
     if (this.state.swipedAllCards) {
       return (
-        <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center',}}>
-          <Text style={{fontWeight: 'bold', fontSize: 24, color: 'white'}}>Card stack is empty.</Text>
+        <View style={styles.emptyView}>
+          <Text style={styles.emptyText}>Card stack is empty.</Text>
         </View>
         );
     } else {
@@ -114,8 +114,8 @@ export default class choicesScreen extends Component {
         .then((response) => response.json())
         .then((responseJson) =>{
           var shuffledCards = this.shuffleResults(responseJson.results);
-          this.setState({cards : shuffledCards});
-
+          //this.setState({cards : shuffledCards});
+          
           console.log(this.state.cards);
         })
         .catch((error) =>{
@@ -167,6 +167,17 @@ export default class choicesScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FF7F7F"
+    backgroundColor: "#FF7F7F",
+  },
+  emptyView: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: 'white',
   }
 });
