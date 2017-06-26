@@ -27,9 +27,7 @@ export default class choicesScreen extends Component {
   static navigationOptions = {
     title: 'Choices',
   };
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
+  setModalVisible = (visible) => this.setState({ modalVisible: visible });
 
   renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal}/>) };
 
@@ -38,7 +36,7 @@ export default class choicesScreen extends Component {
   callModal = () => {
     var currentCard = this.state.cards[this.state.currentCardIndex];
     this.setModalVisible(true);
-    console.log("Wot");
+    console.log(currentCard);
   }
 
   swipeBack = () => {
@@ -51,14 +49,7 @@ export default class choicesScreen extends Component {
     }
   };
 
-  setIsSwipingBack = (isSwipingBack, cb) => {
-    this.setState(
-      {
-        isSwipingBack: isSwipingBack
-      },
-      cb
-    );
-  };
+  setIsSwipingBack = (isSwipingBack, cb) => this.setState({ isSwipingBack: isSwipingBack }, cb);
 
   swipeRight = () => {
     this.swipeBack();
@@ -83,55 +74,15 @@ export default class choicesScreen extends Component {
     }
     return results;
   };
-
-  componentDidMount(){
-    navigator.geolocation.getCurrentPosition((position) => {
-      fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
-        position['coords']['latitude'] + ',' + position['coords']['longitude'] +
-        '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
-        method:'GET',
-        headers: {
-          'Accept': 'application/json'
-        }})
-        .then((response) => response.json())
-        .then((responseJson) =>{
-          var shuffledCards = this.shuffleResults(responseJson.results);
-          this.setState({cards : shuffledCards});
-          this.forceUpdate();
-          console.log(this.state.cards);
-        })
-        .catch((error) =>{
-          console.error(error);
-        });
-
-    },
-    (error)=>{
-      console.log(error);
-    });
-  }
-
-  render() {
-    return (
-     <View style={styles.container}>
-     <Modal
-         animationType={"slide"}
-         transparent={false}
-         visible={this.state.modalVisible}
-         onRequestClose={() => {alert("Modal has been closed.")}}
-         >
-        <View style={{marginTop: 22}}>
-         <View>
-           <Text>Hello World!</Text>
-
-           <TouchableHighlight onPress={() => {
-             this.setModalVisible(!this.state.modalVisible)
-           }}>
-             <Text>Hide Modal</Text>
-           </TouchableHighlight>
-
-         </View>
+  renderSwiper = () => {
+    if (this.state.swipedAllCards) {
+      return (
+        <View style={{flex: 1, flexDirection: 'column',justifyContent: 'center', alignItems: 'center',}}>
+          <Text style={{fontWeight: 'bold', fontSize: 24, color: 'white'}}>Card stack is empty.</Text>
         </View>
-       </Modal>
+        );
+    } else {
+      return (
        <Swiper
          ref={swiper => {
            this.swiper = swiper;
@@ -148,6 +99,56 @@ export default class choicesScreen extends Component {
          disableTopSwipe={true}
          animateOpacity={true}
        />
+      );
+    }
+  }
+  componentDidMount(){
+    navigator.geolocation.getCurrentPosition((position) => {
+      fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+        position['coords']['latitude'] + ',' + position['coords']['longitude'] +
+        '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
+        method:'GET',
+        headers: {
+          'Accept': 'application/json'
+        }})
+        .then((response) => response.json())
+        .then((responseJson) =>{
+          var shuffledCards = this.shuffleResults(responseJson.results);
+          this.setState({cards : shuffledCards});
+
+          console.log(this.state.cards);
+        })
+        .catch((error) =>{
+          console.error(error);
+        });
+
+    },
+    (error)=>{
+      console.log(error);
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+      <Modal
+        animationType={"slide"}
+        transparent={false}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {alert("Modal has been closed.")}}
+      >
+      <View style={{marginTop: 22}}>
+        <View>
+          <Text>Hello World!</Text>
+           <TouchableHighlight onPress={() => {
+             this.setModalVisible(!this.state.modalVisible)
+           }}>
+             <Text>Hide Modal</Text>
+           </TouchableHighlight>
+         </View>
+        </View>
+       </Modal>
+       {this.renderSwiper()}
        <Toast
           ref="toast"
           style={{backgroundColor:'grey'}}
