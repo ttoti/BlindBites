@@ -114,8 +114,8 @@ export default class choicesScreen extends Component {
         .then((response) => response.json())
         .then((responseJson) =>{
           var shuffledCards = this.shuffleResults(responseJson.results);
-          //this.setState({cards : shuffledCards});
-          
+          this.setState({cards : shuffledCards});
+
           console.log(this.state.cards);
         })
         .catch((error) =>{
@@ -140,12 +140,12 @@ export default class choicesScreen extends Component {
       <View style={{marginTop: 22}}>
         <View>
           <Text>Hello World!</Text>
-           <TouchableHighlight onPress={() => {
-             this.setModalVisible(!this.state.modalVisible)
-           }}>
-             <Text>Hide Modal</Text>
-           </TouchableHighlight>
-         </View>
+
+          <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+            <Text>Hide Modal</Text>
+          </TouchableHighlight>
+
+          </View>
         </View>
        </Modal>
        {this.renderSwiper()}
