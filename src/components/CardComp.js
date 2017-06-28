@@ -1,18 +1,59 @@
 import React, {Component} from 'react';
 import {Image, Text, View, StyleSheet, Button} from 'react-native';
-import {MKButton, MKColor} from 'react-native-material-kit';
 import StarRating from 'react-native-star-rating';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ColorFab = MKButton.coloredFab().build();
+const turfDistance = require('@turf/distance');
 
 export default class CardComp extends Component {
     constructor(props) {
     super(props);
   }
 
+  renderDistanceComp = () => {
+    if(this.props.card.geometry){
+      var gpsObjectCard = this.props.card.geometry.location;
+      var from = {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [this.props.gps[0], this.props.gps[1]]
+        }
+      };
+      var to = {
+        "type": "Feature",
+        "properties": {},
+        "geometry": {
+          "type": "Point",
+          "coordinates": [gpsObjectCard.lat, gpsObjectCard.lng]
+        }
+      };
+      var distance = turfDistance(from, to, "miles");
+      return <Text style={{textAlign: 'center'}}>{Math.round(distance * 100) / 100} miles away</Text>
+    }else{
+      return <Text style={{textAlign: 'center'}}>N/A</Text>;
+    }
+  }
+  renderPriceLevelComp = () => {
+    if(this.props.card.price_level){
+      return (
+        <StarRating
+          disabled={true}
+          fullStar={'dollar'}
+          emptyStar={'minus'}
+          iconSet={'FontAwesome'}
+          maxStars={4}
+          rating={this.props.card.price_level}
+          starColor={'green'}
+          starSize={20}
+        />
+      );
+    }else{
+      return <Text style={{textAlign: 'center'}}>N/A</Text>;
+    }
+  }
   render() {
-    // <Text style={styles.text}>{card.price_level}</Text>
-    // <Text style={styles.text}>{card.rating}</Text>
     return (
       <View style={styles.card}>
         <View style={{alignItems: 'center', paddingTop: 10}}>
@@ -23,35 +64,33 @@ export default class CardComp extends Component {
         </View>
         <View style={{flex: 1, flexDirection: 'row', alignItems:'center', justifyContent:'center'}}>
           <Text style={styles.text}>{this.props.card.name}</Text>
-          <ColorFab
-            backgroundColor={'#F9F9EA'}
-            shadowRadius={1}
-            shadowOffset={{width:0, height:2}}
-            shadowOpacity={.6}
-            shadowColor="black"
-            style={styles.button}
-            onPress={this.props.callbackModal}
-          />
+          <Icon.Button name="info" color="#000000" backgroundColor="#B4B4B4" onPress={this.props.callbackModal}>
+            Info
+          </Icon.Button>
         </View>
-
-        <StarRating
-          disabled={true}
-          maxStars={5}
-          emptyStar={'star-o'}
-          halfStar={'star-half'}
-          fullStar={'star'}
-          iconSet={'FontAwesome'}
-          rating={this.props.card.rating}
-        />
-        <StarRating
-          disabled={true}
-          fullStar={'dollar'}
-          emptyStar={'minus'}
-          iconSet={'FontAwesome'}
-          maxStars={4}
-          rating={this.props.card.price_level}
-          starColor={'green'}
-        />
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text style={{textAlign: 'center'}}>Distance: </Text>
+            {this.renderDistanceComp()}
+          </View>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text style={{textAlign: 'center'}}>Rating:</Text>
+            <StarRating
+              disabled={true}
+              maxStars={5}
+              emptyStar={'star-o'}
+              halfStar={'star-half'}
+              fullStar={'star'}
+              iconSet={'FontAwesome'}
+              rating={this.props.card.rating}
+              starSize={20}
+            />
+          </View>
+          <View style={{flex: 1, flexDirection: 'column'}}>
+            <Text style={{textAlign: 'center'}}>Price Level: </Text>
+            {this.renderPriceLevelComp()}
+          </View>
+        </View>
       </View>
     );
   }
@@ -66,11 +105,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   button: {
-    height: 20,
+    height: 40,
     justifyContent: 'center',
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     backgroundColor: "transparent",
     paddingRight: 10,
     paddingTop: 5,

@@ -3,11 +3,8 @@ import {Image, Modal, Text, View, StyleSheet, Button, TouchableHighlight} from '
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
-import {MKButton, MKColor} from 'react-native-material-kit';
 
 import CardComp from './CardComp';
-
-const ColorFab = MKButton.coloredFab().build();
 
 export default class choicesScreen extends Component {
     constructor(props) {
@@ -21,6 +18,8 @@ export default class choicesScreen extends Component {
       cardIndex: 0,
       currentCardIndex: 0,
       modalVisible: false,
+      latitude: 0,
+      longitude: 0,
     };
   }
 
@@ -29,7 +28,7 @@ export default class choicesScreen extends Component {
   };
   setModalVisible = (visible) => this.setState({ modalVisible: visible });
 
-  renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal}/>) };
+  renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal} gps={[this.state.latitude, this.state.longitude]}/>) };
 
   onSwipedAllCards = () => this.setState({ swipedAllCards: true });
 
@@ -52,17 +51,21 @@ export default class choicesScreen extends Component {
   setIsSwipingBack = (isSwipingBack, cb) => this.setState({ isSwipingBack: isSwipingBack }, cb);
 
   swipeRight = () => {
+    //When card swiped right, goes to another page
+    //TODO
     this.swipeBack();
     const { navigate } = this.props.navigation;
     navigate('Selection');
   };
 
   swipeLeft = () => {
+    //When card swiped left, remove
     this.refs.toast.show('Card removed',DURATION.LENGTH_LONG);
     this.state.currentCardIndex++;
   };
 
   shuffleResults = (results) => {
+    //Shuffles and returns the results
     var currentIndex = results.length, temporaryValue, randomIndex;
     while (0 !== currentIndex) {
       randomIndex = Math.floor(Math.random() * currentIndex);
@@ -74,7 +77,9 @@ export default class choicesScreen extends Component {
     }
     return results;
   };
+
   renderSwiper = () => {
+    //Renders swiper if all cards aren't swiped.
     if (this.state.swipedAllCards) {
       return (
         <View style={styles.emptyView}>
@@ -115,7 +120,7 @@ export default class choicesScreen extends Component {
         .then((responseJson) =>{
           var shuffledCards = this.shuffleResults(responseJson.results);
           this.setState({cards : shuffledCards});
-
+          this.setState({latitude: position['coords']['latitude'], longitude: position['coords']['longitude']})
           console.log(this.state.cards);
         })
         .catch((error) =>{
@@ -131,25 +136,24 @@ export default class choicesScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-      <Modal
-        animationType={"slide"}
-        transparent={false}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {alert("Modal has been closed.")}}
-      >
-      <View style={{marginTop: 22}}>
-        <View>
-          <Text>Hello World!</Text>
+        <Modal
+          animationType={"slide"}
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {alert("Modal has been closed.")}}
+        >
+          <View style={{marginTop: 22}}>
+            <View>
+              <Text>Hello World!</Text>
 
-          <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-            <Text>Hide Modal</Text>
-          </TouchableHighlight>
-
+              <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
           </View>
-        </View>
-       </Modal>
-       {this.renderSwiper()}
-       <Toast
+        </Modal>
+        {this.renderSwiper()}
+        <Toast
           ref="toast"
           style={{backgroundColor:'grey'}}
           position='bottom'
@@ -159,7 +163,7 @@ export default class choicesScreen extends Component {
           opacity={0.8}
           textStyle={{color:'white'}}
         />
-     </View>
+      </View>
    );
   }
 }
