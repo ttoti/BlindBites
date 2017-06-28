@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@turf/distance": "^4.4.0",
     "prop-types": "^15.5.10",
     "react": "15.4.1",
     "react-native": "0.42.2",
