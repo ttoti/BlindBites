@@ -3,8 +3,11 @@ import {Image, Modal, Text, View, StyleSheet, Button, TouchableHighlight} from '
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
+import {MKSpinner} from 'react-native-material-kit';
 
 import CardComp from './CardComp';
+
+const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
 export default class choicesScreen extends Component {
     constructor(props) {
@@ -79,7 +82,7 @@ export default class choicesScreen extends Component {
   };
 
   renderSwiper = () => {
-    //Renders swiper if all cards aren't swiped.
+    //TODO: Fix perfomance issue, might have to do with React Navigation
     if (this.state.swipedAllCards) {
       return (
         <View style={styles.emptyView}>
@@ -87,24 +90,32 @@ export default class choicesScreen extends Component {
         </View>
         );
     } else {
-      return (
-       <Swiper
-         ref={swiper => {
-           this.swiper = swiper;
-         }}
-         onSwipedRight={this.swipeRight}
-         onSwipedLeft={this.swipeLeft}
-         cards={this.state.cards}
-         marginTop={50}
-         marginBottom={150}
-         renderCard={this.renderCard}
-         onSwipedAll={this.onSwipedAllCards}
-         backgroundColor={"#FF7F7F"}
-         disableBottomSwipe={true}
-         disableTopSwipe={true}
-         animateOpacity={true}
-       />
-      );
+        if(this.state.cards[0] === "0"){
+          return (
+            <View style={styles.emptyView}>
+              <SingleColorSpinner style={styles.loadingSpinner} strokeColor="white" strokeWidth={4} />
+            </View>
+          );
+        } else {
+          return (
+            <Swiper
+              ref={swiper => {
+                this.swiper = swiper;
+              }}
+              onSwipedRight={this.swipeRight}
+              onSwipedLeft={this.swipeLeft}
+              cards={this.state.cards}
+              marginTop={50}
+              marginBottom={150}
+              renderCard={this.renderCard}
+              onSwipedAll={this.onSwipedAllCards}
+              backgroundColor={"#FF7F7F"}
+              disableBottomSwipe={true}
+              disableTopSwipe={true}
+              animateOpacity={true}
+            />
+          );
+        }
     }
   }
   componentDidMount(){
@@ -137,11 +148,10 @@ export default class choicesScreen extends Component {
     return (
       <View style={styles.container}>
         <Modal
-          animationType={"slide"}
+          animationType={"fade"}
           transparent={false}
           visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}
-        >
+          onRequestClose={() => {alert("Modal has been closed.")}}>
           <View style={{marginTop: 22}}>
             <View>
               <Text>Hello World!</Text>
@@ -183,5 +193,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: 'white',
-  }
+  },
+  loadingSpinner: {
+    width: 150,
+    height: 150,
+  },
 });
