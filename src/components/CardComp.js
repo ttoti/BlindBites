@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Image, Text, View, StyleSheet, Button} from 'react-native';
 import StarRating from 'react-native-star-rating';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Config from 'react-native-config';
 
 const turfDistance = require('@turf/distance');
 
@@ -53,14 +54,24 @@ export default class CardComp extends Component {
       return <Text style={{textAlign: 'center'}}>N/A</Text>;
     }
   }
+  renderPhoto = () => {
+    if(this.props.card.photos){
+      return (
+        <Image
+          style={{width: 200, height: 200, borderRadius: 10}}
+          source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' + this.props.card.photos[0].photo_reference
+                      + '&sensor=false&maxheight=500&maxwidth=800&key=' + Config.GOOGLE_MAPS_API_KEY }}
+        />
+      );
+    }else{
+      return ( <Image style={{width: 200, height: 200, borderRadius: 10}} source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/ef/50/ca/ef50ca35e6a867583bb5deb8e457c3df.jpg"}} /> );
+    }
+  }
   render() {
     return (
       <View style={styles.card}>
         <View style={{alignItems: 'center', paddingTop: 10}}>
-          <Image
-            style={{width: 200, height: 200, borderRadius: 10}}
-            source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
-          />
+          {this.renderPhoto()}
         </View>
         <View style={{flex: 1, flexDirection: 'row', alignItems:'center', justifyContent:'center'}}>
           <Text style={styles.text}>{this.props.card.name}</Text>
