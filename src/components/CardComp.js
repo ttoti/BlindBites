@@ -56,6 +56,7 @@ export default class CardComp extends Component {
   }
   renderPhoto = () => {
     if(this.props.card.photos){
+      //TODO Fix image flickering issue
       return (
         <Image
           style={{width: 200, height: 200, borderRadius: 10}}
@@ -92,6 +93,7 @@ export default class CardComp extends Component {
               emptyStar={'star-o'}
               halfStar={'star-half'}
               fullStar={'star'}
+              starColor={'#E1E100'}
               iconSet={'FontAwesome'}
               rating={this.props.card.rating}
               starSize={20}
