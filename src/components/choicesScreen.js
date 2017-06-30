@@ -20,7 +20,6 @@ export default class choicesScreen extends Component {
       isSwipingBack: false,
       cardIndex: 0,
       currentCardIndex: 0,
-      modalVisible: false,
       latitude: 0,
       longitude: 0,
     };
@@ -36,9 +35,10 @@ export default class choicesScreen extends Component {
   onSwipedAllCards = () => this.setState({ swipedAllCards: true });
 
   callModal = () => {
+    const {navigate} = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-    this.setModalVisible(true);
-    console.log(currentCard);
+    
+    navigate('Information', {card: currentCard});
   }
 
   swipeBack = () => {
@@ -54,11 +54,11 @@ export default class choicesScreen extends Component {
   setIsSwipingBack = (isSwipingBack, cb) => this.setState({ isSwipingBack: isSwipingBack }, cb);
 
   swipeRight = () => {
-    //When card swiped right, goes to another page
-    //TODO
-    this.swipeBack();
     const { navigate } = this.props.navigation;
-    navigate('Selection');
+    var currentCard = this.state.cards[this.state.currentCardIndex];
+
+    this.swipeBack();
+    navigate('Selection', {card: currentCard});
   };
 
   swipeLeft = () => {
@@ -82,7 +82,6 @@ export default class choicesScreen extends Component {
   };
 
   renderSwiper = () => {
-    //TODO: Fix perfomance issue, might have to do with React Navigation
     if (this.state.swipedAllCards) {
       return (
         <View style={styles.emptyView}>
@@ -147,21 +146,6 @@ export default class choicesScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Modal
-          animationType={"fade"}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {alert("Modal has been closed.")}}>
-          <View style={{marginTop: 22}}>
-            <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight onPress={() => { this.setModalVisible(!this.state.modalVisible) }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
         {this.renderSwiper()}
         <Toast
           ref="toast"
