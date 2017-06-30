@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Button} from 'react-native';
+import {Text, View, StyleSheet, Button, ScrollView} from 'react-native';
 
 export default class infoScreen extends Component {
     constructor(props) {
     super(props);
-    this.state = {
-      data: null
-    };
   }
 
   static navigationOptions = {
     title: 'Information',
   };
   render() {
+    const { params } = this.props.navigation.state;
 
-    const { navigate } = this.props.navigation;
+    console.log(params.card);
     return (
      <View style={styles.container}>
+      <ScrollView style={styles.scrollView}>
+        <Text>Wot</Text>
+      </ScrollView>
      </View>
    );
   }
@@ -25,8 +26,13 @@ export default class infoScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FF7F7F'
+    backgroundColor: '#FF7F7F',
+    flexDirection: 'column',
   },
+  scrollView: {
+    flex: .8,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    margin: 20,
+  }
 });
