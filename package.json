@@ -14,6 +14,7 @@
     "react-native-config": "^0.5.0",
     "react-native-deck-swiper": "^1.1.9",
     "react-native-easy-toast": "^1.0.6",
+    "react-native-fast-image": "0.0.11",
     "react-native-material-kit": "^0.4.1",
     "react-native-star-rating": "^1.0.7",
     "react-native-vector-icons": "^4.2.0",
