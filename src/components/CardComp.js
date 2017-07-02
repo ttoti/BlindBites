@@ -1,6 +1,8 @@
+'use strict';
 import React, {Component} from 'react';
 import {Image, Text, View, StyleSheet, Button} from 'react-native';
 import StarRating from 'react-native-star-rating';
+import FastImage from 'react-native-fast-image'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Config from 'react-native-config';
 
@@ -56,12 +58,16 @@ export default class CardComp extends Component {
   }
   renderPhoto = () => {
     if(this.props.card.photos){
-      //TODO Fix image flickering issue
       return (
-        <Image
-          style={{width: 200, height: 200, borderRadius: 10}}
-          source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' + this.props.card.photos[0].photo_reference
-                      + '&sensor=false&maxheight=500&maxwidth=800&key=' + Config.GOOGLE_MAPS_API_KEY }}
+        <FastImage
+          style={{width : 200, height: 200, borderRadius: 10}}
+          source={{
+            uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
+                    this.props.card.photos[0].photo_reference +
+                    '&sensor=false&maxheight=500&maxwidth=800&key=' + Config.GOOGLE_MAPS_API_KEY,
+            headers:{},
+            priority: FastImage.priority.normal,
+            }}
         />
       );
     }else{
