@@ -50,8 +50,8 @@ export default class infoScreen extends Component {
     var hoursIndex, hours;
     const { params } = this.props.navigation.state;
     if(this.state.resDetails != null){
-      let website = null;
-
+      let website = null, reviews = null;
+      console.log(this.state.resDetails);
       var dayOfWeek = new Date().getDay();
       if(dayOfWeek == 0){
         hoursIndex = 6;
@@ -65,15 +65,19 @@ export default class infoScreen extends Component {
         website = (<Text style={{color: '#FF7F7F', fontSize: 15, textAlign: 'center'}}
                       onPress={() => Linking.openURL(this.state.resDetails.website)}>Website</Text>);
       }else{
-        <View></View>
+        website = <View></View>
       }
-
+      if(this.state.resDetails.reviews != null){
+        reviews = this.renderReviews(this.state.resDetails.reviews);
+      }else{
+        reviews = <View></View>
+      }
       return (
         <View>
           <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
           {website}
           <Text style={styles.detailsText}>Hours for today: {hours}</Text>
-          {this.renderReviews(this.state.resDetails.reviews)}
+          {reviews}
         </View>
       );
     }
