@@ -1,5 +1,6 @@
+'use strict';
 import React, {Component} from 'react';
-import {Image, Text, View, StyleSheet, Button, Dimensions, ScrollView} from 'react-native';
+import {Image, Linking, Text, View, StyleSheet, Button, Dimensions, ScrollView} from 'react-native';
 import Config from 'react-native-config'
 import MapView from 'react-native-maps';
 import {MKSpinner} from 'react-native-material-kit';
@@ -24,23 +25,58 @@ export default class infoScreen extends Component {
   componentWillMount(){
     const { params } = this.props.navigation.state;
     console.log(params.card);
-      fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
-             params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
-      method:'GET',
-      headers: {
-        'Accept': 'application/json'
-      }})
-      .then((response) => response.json())
-      .then((responseJson) =>{
-        this.setState({resDetails : responseJson.result});
-        console.log(this.state.resDetails);
-      })
-      .catch((error) =>{
-        console.error(error);
-      });
+    fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+           params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
+           method:'GET',
+           headers: {
+             'Accept': 'application/json'
+           }})
+           .then((response) => response.json())
+           .then((responseJson) =>{
+             this.setState({resDetails : responseJson.result});
+           })
+           .catch((error) =>{
+             console.error(error);
+           }
+      );
   }
-  renderReviews = () => {
 
+  renderReviews = (reviews) => {
+    console.log(reviews);
+    return (<Text style={styles.detailsText}>Recent reviews:</Text>)
+  }
+
+  renderDetails = () =>{
+    var hoursIndex, hours;
+    const { params } = this.props.navigation.state;
+    if(this.state.resDetails != null){
+      let website = null;
+
+      var dayOfWeek = new Date().getDay();
+      if(dayOfWeek == 0){
+        hoursIndex = 6;
+      }else{
+        hoursIndex = (dayOfWeek - 1);
+      }
+      hours = this.state.resDetails.opening_hours.weekday_text[hoursIndex];
+      hours = hours.substring(hours.indexOf(':') + 1, hours.len);
+
+      if(this.state.resDetails.website != null){
+        website = (<Text style={{color: '#FF7F7F', fontSize: 15, textAlign: 'center'}}
+                      onPress={() => Linking.openURL(this.state.resDetails.website)}>Website</Text>);
+      }else{
+        <View></View>
+      }
+
+      return (
+        <View>
+          <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
+          <Text style={styles.detailsText}>Hours for today: {hours}</Text>
+          {website}
+          {this.renderReviews(this.state.resDetails.reviews)}
+        </View>
+      );
+    }
   }
 
   renderPhotos = () => {
@@ -57,8 +93,9 @@ export default class infoScreen extends Component {
                   this.state.resDetails.photos.map((key, index) => {
                   return(
                     <View style={styles.slide} key={key} title={<Text>{index}</Text>}>
-                      <Image style={styles.image} source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' + key.photo_reference
-                              + '&sensor=false&maxheight=500&maxwidth=800&key=' + Config.GOOGLE_MAPS_API_KEY}} />
+                      <Image style={styles.image} source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
+                        key.photo_reference + '&sensor=false&maxheight=500&maxwidth=800&key=' +
+                        Config.GOOGLE_MAPS_API_KEY}} />
                     </View>
                   );
                 })
@@ -66,32 +103,30 @@ export default class infoScreen extends Component {
             </Swiper>
           </View>
         );
-      }
-      else{
+      }else{
         return (
           <View style={{alignItems: 'center'}}>
-            <Image style={{width: 200, height: 200, borderRadius: 10}} source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/ef/50/ca/ef50ca35e6a867583bb5deb8e457c3df.jpg"}} />
+            <Image style={{width: 200, height: 200, borderRadius: 10}}
+              source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/ef/50/ca/ef50ca35e6a867583bb5deb8e457c3df.jpg"}}
+             />
           </View>
         );
       }
-
     }else{
       return (
             <View style={styles.emptyView}>
                 <SingleColorSpinner style={styles.loadingSpinner} strokeColor="grey" strokeWidth={3} />
               </View>
             );
-    }
+      }
   }
   render() {
     const { params } = this.props.navigation.state;
-
-    console.log(params.card);
     return (
      <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
         {this.renderPhotos()}
-        {this.renderReviews()}
+        {this.renderDetails()}
         <View style={styles.mapView}>
           <MapView
             style={styles.map}
@@ -118,7 +153,6 @@ export default class infoScreen extends Component {
   }
 }
 
-
 const renderPagination = (index, total, context) => {
   return (
     <View style={{
@@ -126,8 +160,8 @@ const renderPagination = (index, total, context) => {
       bottom: 20,
       right: 45,
       borderRadius: 5,
-      borderWidth: 1,
-      borderColor: 'black',
+      borderWidth: 2,
+      borderColor: 'white',
       backgroundColor: '#323232',
     }}>
       <Text style={{ color: 'grey'}}>
@@ -193,6 +227,10 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold'
+  },
+  detailsText: {
+    fontSize: 15,
+    textAlign: 'center'
   },
   wrapper: {
   },
