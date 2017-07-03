@@ -25,7 +25,6 @@ export default class infoScreen extends Component {
 
   componentWillMount(){
     const { params } = this.props.navigation.state;
-    console.log(params.card);
     fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
            params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
            method:'GET',
@@ -44,7 +43,7 @@ export default class infoScreen extends Component {
 
   renderReviews = (reviews) => {
     const reviewList = reviews.splice(2).map((item, index) => {
-      return <ReviewCardComp key={index} review={item} />
+      return <ReviewCardComp key={index} review={item}/>
     });
     return(
       <View>
