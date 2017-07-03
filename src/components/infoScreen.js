@@ -71,8 +71,8 @@ export default class infoScreen extends Component {
       return (
         <View>
           <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
-          <Text style={styles.detailsText}>Hours for today: {hours}</Text>
           {website}
+          <Text style={styles.detailsText}>Hours for today: {hours}</Text>
           {this.renderReviews(this.state.resDetails.reviews)}
         </View>
       );
@@ -161,7 +161,7 @@ const renderPagination = (index, total, context) => {
       right: 45,
       borderRadius: 5,
       borderWidth: 2,
-      borderColor: 'white',
+      borderColor: '#323232',
       backgroundColor: '#323232',
     }}>
       <Text style={{ color: 'grey'}}>
