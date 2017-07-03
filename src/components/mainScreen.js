@@ -39,7 +39,6 @@ var styles = StyleSheet.create({
     color: "white",
     fontSize: 60,
     paddingBottom: 70,
-    fontFamily: 'Verdana',
     fontStyle: 'italic',
   },
   button: {
