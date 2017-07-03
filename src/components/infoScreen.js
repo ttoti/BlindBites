@@ -5,6 +5,7 @@ import Config from 'react-native-config'
 import MapView from 'react-native-maps';
 import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
+import ReviewCardComp from './ReviewCardComp';
 
 const { width } = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -42,8 +43,15 @@ export default class infoScreen extends Component {
   }
 
   renderReviews = (reviews) => {
-    console.log(reviews);
-    return (<Text style={styles.detailsText}>Recent reviews:</Text>)
+    const reviewList = reviews.splice(2).map((item, index) => {
+      return <ReviewCardComp key={index} review={item} />
+    });
+    return(
+      <View>
+        <Text style={styles.detailsText}>Recent reviews:</Text>
+        {reviewList}
+      </View>
+    );
   }
 
   renderDetails = () =>{
@@ -51,7 +59,6 @@ export default class infoScreen extends Component {
     const { params } = this.props.navigation.state;
     if(this.state.resDetails != null){
       let website = null, reviews = null;
-      console.log(this.state.resDetails);
       var dayOfWeek = new Date().getDay();
       if(dayOfWeek == 0){
         hoursIndex = 6;
