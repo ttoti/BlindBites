@@ -47,18 +47,25 @@ export default class infoScreen extends Component {
     const { params } = this.props.navigation.state;
     if(this.state.resDetails != null){
       var details = this.state.resDetails;
+      var openNow = null;
+      if(details.opening_hours.open_now){
+        openNow = <Text style={{color: 'green'}}>Open Now</Text>
+      }else{
+        openNow = <Text style={{color: 'red'}}>Currently closed</Text>
+      }
+      console.log(details);
       return (
         <View>
           <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
           <View style={{alignItems: 'center'}}>
             <Text>{"\n"}Phone number:</Text>
             <TouchableOpacity onPress={() => Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)}>
-              <Text>{details.formatted_phone_number}</Text>
+              <Text>{details.formatted_phone_number}{"\n"}</Text>
             </TouchableOpacity>
           </View>
-
           <View style={{alignItems: 'center'}}>
-            <Text>{"\n"}Address</Text>
+            {openNow}
+            <Text>{"\n"}Address:</Text>
             <TouchableOpacity onPress={() =>this.openGPS(params.card.geometry.location.lat, params.card.geometry.location.lng)}>
               <Text>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
             </TouchableOpacity>
