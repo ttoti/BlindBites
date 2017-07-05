@@ -1,6 +1,8 @@
 'use strict';
 import React, {Component} from 'react';
-import {Dimensions, Text, View, StyleSheet, Button, ScrollView} from 'react-native';
+import {Button ,Dimensions, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Communications from 'react-native-communications';
+import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 
 const { width } = Dimensions.get('window');
@@ -9,16 +11,59 @@ const SCREEN_WIDTH = width;
 export default class infoScreen extends Component {
     constructor(props) {
     super(props);
+    this.state = {
+      resDetails: null,
+    }
   }
 
   static navigationOptions = {
     title: 'Selection',
   };
+
+  componentWillMount(){
+    const { params } = this.props.navigation.state;
+    fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
+           params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
+           method:'GET',
+           headers: {
+             'Accept': 'application/json'
+           }})
+           .then((response) => response.json())
+           .then((responseJson) =>{
+             this.setState({resDetails : responseJson.result});
+           })
+           .catch((error) =>{
+             console.error(error);
+           }
+      );
+  }
+  renderDetails = () => {
+    const { params } = this.props.navigation.state;
+    if(this.state.resDetails != null){
+      var details = this.state.resDetails;
+      console.log(details)
+      return (
+        <View>
+        <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
+        <View style={{alignItems: 'center'}}>
+          <Text>{"\n"}Phone number:</Text>
+          <TouchableOpacity onPress={
+              () =>
+              Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)
+            }>
+          <Text>{details.formatted_phone_number}</Text>
+          </TouchableOpacity>
+        </View>
+        </View>
+      );
+    }
+  }
   render() {
     const { params } = this.props.navigation.state;
     return (
      <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
+        {this.renderDetails()}
         <View style={styles.mapView}>
           <MapView
             style={styles.map}

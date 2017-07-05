@@ -1,7 +1,7 @@
 'use strict';
 import React, {Component} from 'react';
 import {Image, Linking, Text, View, StyleSheet, Button, Dimensions, ScrollView} from 'react-native';
-import Config from 'react-native-config'
+import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
@@ -82,7 +82,7 @@ export default class infoScreen extends Component {
         <View>
           <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
           {website}
-          <Text style={styles.detailsText}>Hours for today: {hours}</Text>
+          <Text style={styles.detailsText}>{"\n"}Hours for today: {"\n"}{hours}{"\n"}</Text>
           {reviews}
         </View>
       );
