@@ -137,26 +137,6 @@ export default class infoScreen extends Component {
       <ScrollView style={styles.scrollView}>
         {this.renderPhotos()}
         {this.renderDetails()}
-        <View style={styles.mapView}>
-          <MapView
-            style={styles.map}
-            mapType="hybrid"
-            scrollEnabled={false}
-            initialRegion={{
-            latitude: params.card.geometry.location.lat,
-            longitude: params.card.geometry.location.lng,
-            latitudeDelta: 0.0082,
-            longitudeDelta: 0.0041,
-          }}
-          >
-            <MapView.Marker
-              coordinate={{
-                latitude: params.card.geometry.location.lat,
-                longitude: params.card.geometry.location.lng
-              }}
-            />
-          </MapView>
-          </View>
       </ScrollView>
      </View>
    );
@@ -211,16 +191,6 @@ const styles = StyleSheet.create({
   loadingSpinner: {
     width: 150,
     height: 150,
-  },
-  map: {
-    width: (SCREEN_WIDTH * .85),
-    height: 250,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  mapView: {
-    alignItems: 'center'
   },
   scrollView: {
     flex: .9,
