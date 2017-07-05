@@ -1,6 +1,6 @@
 'use strict';
 import React, {Component} from 'react';
-import {Button ,Dimensions, Linking, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Button ,Dimensions, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Communications from 'react-native-communications';
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
@@ -37,23 +37,32 @@ export default class infoScreen extends Component {
            }
       );
   }
+  openGPS = (lat, lng) =>{
+    var scheme = Platform.OS === 'ios' ? 'http://maps.apple.com/?daddr=' : 'geo:'
+    var url = scheme + lat + ',' + lng;
+    console.log(url);
+    Linking.openURL(url);
+  }
   renderDetails = () => {
     const { params } = this.props.navigation.state;
     if(this.state.resDetails != null){
       var details = this.state.resDetails;
-      console.log(details)
       return (
         <View>
-        <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
-        <View style={{alignItems: 'center'}}>
-          <Text>{"\n"}Phone number:</Text>
-          <TouchableOpacity onPress={
-              () =>
-              Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)
-            }>
-          <Text>{details.formatted_phone_number}</Text>
-          </TouchableOpacity>
-        </View>
+          <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
+          <View style={{alignItems: 'center'}}>
+            <Text>{"\n"}Phone number:</Text>
+            <TouchableOpacity onPress={() => Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)}>
+              <Text>{details.formatted_phone_number}</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{alignItems: 'center'}}>
+            <Text>{"\n"}Address</Text>
+            <TouchableOpacity onPress={() =>this.openGPS(params.card.geometry.location.lat, params.card.geometry.location.lng)}>
+              <Text>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       );
     }
@@ -65,6 +74,7 @@ export default class infoScreen extends Component {
       <ScrollView style={styles.scrollView}>
         {this.renderDetails()}
         <View style={styles.mapView}>
+          <TouchableOpacity onPress={() => this.openGPS(params.card.geometry.location.lat, params.card.geometry.location.lng)}>
           <MapView
             style={styles.map}
             mapType="hybrid"
@@ -81,6 +91,7 @@ export default class infoScreen extends Component {
                 longitude: params.card.geometry.location.lng
               }}/>
           </MapView>
+          </TouchableOpacity>
         </View>
       </ScrollView>
      </View>
