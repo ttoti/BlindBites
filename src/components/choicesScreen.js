@@ -37,7 +37,7 @@ export default class choicesScreen extends Component {
   callModal = () => {
     const {navigate} = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-    
+
     navigate('Information', {card: currentCard});
   }
 
