@@ -4,6 +4,7 @@
 
 #Environment
 .env
+secrets.xml
 
 # Xcode
 #
