@@ -23,7 +23,7 @@ export default class infoScreen extends Component {
   componentWillMount(){
     const { params } = this.props.navigation.state;
     fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
-           params.card.place_id + '&key=' + Config.GOOGLE_DETAIL_API_KEY, {
+           params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
            method:'GET',
            headers: {
              'Accept': 'application/json'
