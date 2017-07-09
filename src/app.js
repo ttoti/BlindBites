@@ -4,10 +4,10 @@ import {
   Text,View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import mainScreen from './components/mainScreen';
-import choicesScreen from './components/choicesScreen';
-import selectionScreen from './components/selectionScreen';
-import infoScreen from './components/infoScreen';
+import mainScreen from './screens/mainScreen';
+import choicesScreen from './screens/choicesScreen';
+import selectionScreen from './screens/selectionScreen';
+import infoScreen from './screens/infoScreen';
 
 const BlindBites = StackNavigator({
   Home: { screen: mainScreen },

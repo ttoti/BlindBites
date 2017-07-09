@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
-import ReviewCardComp from './ReviewCardComp';
+import ReviewCardComp from '../components/ReviewCardComp';
 
 const { width } = Dimensions.get('window');
 const SCREEN_WIDTH = width;
@@ -26,7 +26,7 @@ export default class infoScreen extends Component {
   componentWillMount(){
     const { params } = this.props.navigation.state;
     fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid=' +
-           params.card.place_id + '&key=' + Config.GOOGLE_DETAIL_API_KEY, {
+           params.card.place_id + '&key=' + Config.GOOGLE_MAPS_API_KEY, {
            method:'GET',
            headers: {
              'Accept': 'application/json'

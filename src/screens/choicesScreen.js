@@ -5,7 +5,7 @@ import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
 import {MKSpinner} from 'react-native-material-kit';
 
-import CardComp from './CardComp';
+import CardComp from '../components/CardComp';
 
 const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
