@@ -12,7 +12,6 @@ const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 export default class choicesScreen extends Component {
     constructor(props) {
     super(props);
-    this.callModal = this.callModal.bind(this);
     this.state = {
       cards: ["0"],
       swipedAllCards: false,
@@ -28,7 +27,6 @@ export default class choicesScreen extends Component {
   static navigationOptions = {
     title: 'Choices',
   };
-  setModalVisible = (visible) => this.setState({ modalVisible: visible });
 
   renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal} gps={[this.state.latitude, this.state.longitude]}/>) };
 
@@ -104,8 +102,8 @@ export default class choicesScreen extends Component {
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
               cards={this.state.cards}
-              marginTop={50}
-              marginBottom={150}
+              marginTop={30}
+              marginBottom={90}
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
@@ -142,7 +140,31 @@ export default class choicesScreen extends Component {
       console.log(error);
     });
   }
+  componentWillMount(){
+    navigator.geolocation.getCurrentPosition((position) => {
+      fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+        position['coords']['latitude'] + ',' + position['coords']['longitude'] +
+        '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
+        method:'GET',
+        headers: {
+          'Accept': 'application/json'
+        }})
+        .then((response) => response.json())
+        .then((responseJson) =>{
+          var shuffledCards = this.shuffleResults(responseJson.results);
+          this.setState({cards : shuffledCards});
+          this.setState({latitude: position['coords']['latitude'], longitude: position['coords']['longitude']})
+          console.log(this.state.cards);
+        })
+        .catch((error) =>{
+          console.error(error);
+        });
 
+    },
+    (error)=>{
+      console.log(error);
+    });
+  }
   render() {
     return (
       <View style={styles.container}>
