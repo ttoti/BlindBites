@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import Config from 'react-native-config';
 
 export default class CardPhotoComp extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
   }
   render() {

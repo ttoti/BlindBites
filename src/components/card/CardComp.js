@@ -1,15 +1,15 @@
 'use strict';
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import CardPhotoComp from './CardPhotoComp';
 import DistanceComp from './DistanceComp';
 import PriceLevelComp from './PriceLevelComp';
 import RatingComp from '../common/RatingComp';
-import CardPhotoComp from './CardPhotoComp';
 
 export default class CardComp extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
   }
   render() {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     backgroundColor: "transparent",
     paddingRight: 10,
     paddingTop: 5,
