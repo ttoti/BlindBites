@@ -4,13 +4,13 @@ import {
   Text,View
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import mainScreen from './screens/mainScreen';
+import homeScreen from './screens/homeScreen';
 import choicesScreen from './screens/choicesScreen';
 import selectionScreen from './screens/selectionScreen';
 import infoScreen from './screens/infoScreen';
 
 const BlindBites = StackNavigator({
-  Home: { screen: mainScreen },
+  Home: { screen: homeScreen },
   Choices: { screen: choicesScreen },
   Selection: {screen: selectionScreen},
   Information: {screen: infoScreen}
