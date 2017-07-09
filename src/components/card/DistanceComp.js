@@ -26,7 +26,7 @@ export default class DistanceComp extends Component {
       }
     };
     var distance = turfDistance(from, to, "miles");
-    const distanceView = <Text style={{textAlign: 'center'}}>{Math.round(distance * 100) / 100} miles away</Text>
+    const distanceView = <Text style={{textAlign: 'center', paddingTop: 2}}>{Math.round(distance * 100) / 100} miles</Text>
     return (
       <View>
         {distanceView}

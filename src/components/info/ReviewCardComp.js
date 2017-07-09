@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {Image, Text, View, StyleSheet} from 'react-native';
 import { getTheme } from 'react-native-material-kit';
-import StarRating from 'react-native-star-rating';
+import RatingComp from '../common/RatingComp';
 
 export default class reviewCardComp extends Component {
   constructor(props) {
@@ -22,17 +22,7 @@ export default class reviewCardComp extends Component {
           {review.text}
         </Text>
         <View style={styles.stars}>
-          <StarRating
-            disabled={true}
-            maxStars={5}
-            emptyStar={'star-o'}
-            halfStar={'star-half'}
-            fullStar={'star'}
-            starColor={'#E1E100'}
-            iconSet={'FontAwesome'}
-            rating={review.rating}
-            starSize={20}
-          />
+          <RatingComp rating={review.rating}/>
         </View>
       </View>
    );

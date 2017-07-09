@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
-import ReviewCardComp from '../components/ReviewCardComp';
+import ReviewCardComp from '../components/info/ReviewCardComp';
 
 const { width } = Dimensions.get('window');
 const SCREEN_WIDTH = width;

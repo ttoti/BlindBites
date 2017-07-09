@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import DistanceComp from './DistanceComp';
 import PriceLevelComp from './PriceLevelComp';
-import RatingComp from './RatingComp';
+import RatingComp from '../common/RatingComp';
 import CardPhotoComp from './CardPhotoComp';
 
 export default class CardComp extends Component {
