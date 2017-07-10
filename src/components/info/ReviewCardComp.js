@@ -4,7 +4,7 @@ import {Image, Text, View, StyleSheet} from 'react-native';
 import { getTheme } from 'react-native-material-kit';
 import RatingComp from '../common/RatingComp';
 
-export default class reviewCardComp extends Component {
+export default class ReviewCardComp extends Component {
   constructor(props) {
       super(props);
   }

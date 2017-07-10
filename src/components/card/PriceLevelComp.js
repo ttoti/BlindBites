@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 import StarRating from 'react-native-star-rating';
 
 export default class DistanceComp extends Component {
-    constructor(props) {
+  constructor(props) {
     super(props);
   }
   render() {

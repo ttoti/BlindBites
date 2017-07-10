@@ -2,10 +2,13 @@
 import React, {Component} from 'react';
 import {Image, Linking, Text, View, StyleSheet, Button, Dimensions, ScrollView} from 'react-native';
 import Config from 'react-native-config';
-import MapView from 'react-native-maps';
+
 import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
+
+import DetailsComp from '../components/info/DetailsComp';
 import ReviewCardComp from '../components/info/ReviewCardComp';
+import PhotoSwiperComp from '../components/info/PhotoSwiperComp';
 
 const { width } = Dimensions.get('window');
 const SCREEN_WIDTH = width;
