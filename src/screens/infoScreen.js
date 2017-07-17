@@ -7,11 +7,8 @@ import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
 
 import DetailsComp from '../components/info/DetailsComp';
-import ReviewsComp from '../components/info/ReviewsComp';
 import PhotoSwiperComp from '../components/info/PhotoSwiperComp';
 
-const { width } = Dimensions.get('window');
-const SCREEN_WIDTH = width;
 const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
 export default class infoScreen extends Component {
@@ -44,58 +41,24 @@ export default class infoScreen extends Component {
       );
   }
 
-
-  renderDetails = () =>{
-    var hoursIndex, hours;
-    const { params } = this.props.navigation.state;
-    if(this.state.resDetails != null){
-      let website = null, reviews = null;
-      var dayOfWeek = new Date().getDay();
-      if(dayOfWeek == 0){
-        hoursIndex = 6;
-      }else{
-        hoursIndex = (dayOfWeek - 1);
-      }
-      hours = this.state.resDetails.opening_hours.weekday_text[hoursIndex];
-      hours = hours.substring(hours.indexOf(':') + 1, hours.len);
-
-      if(this.state.resDetails.website != null){
-        website = (<Text style={{color: '#FF7F7F', fontSize: 15, textAlign: 'center'}}
-                      onPress={() => Linking.openURL(this.state.resDetails.website)}>Website</Text>);
-      }else{
-        website = <View></View>
-      }
-      return (
-        <View>
-          <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
-          {website}
-          <Text style={styles.detailsText}>{"\n"}Hours for today: {"\n"}{hours}{"\n"}</Text>
-          <ReviewsComp reviews={this.state.resDetails.reviews}/>
-        </View>
-      );
-    }
-  }
-
-  renderPhotos = () => {
-    if(this.state.resDetails != null){
-      return (
-        <PhotoSwiperComp photos={this.state.resDetails.photos} />
-      )
-    }else{
-      return (
-            <View style={styles.emptyView}>
-                <SingleColorSpinner style={styles.loadingSpinner} strokeColor="grey" strokeWidth={3} />
-              </View>
-            );
-      }
-  }
   render() {
     const { params } = this.props.navigation.state;
+    var details, photo;
+    if(this.state.resDetails){
+      details = <DetailsComp name={params.card.name} details={this.state.resDetails} />
+      photo = <PhotoSwiperComp photos={this.state.resDetails.photos} />
+    }else{
+      details = (
+        <View style={styles.emptyView}>
+          <SingleColorSpinner style={styles.loadingSpinner} strokeColor="grey" strokeWidth={3} />
+        </View> );
+      photo = <View></View>;
+    }
     return (
      <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        {this.renderPhotos()}
-        {this.renderDetails()}
+        {photo}
+        {details}
       </ScrollView>
      </View>
    );
@@ -133,7 +96,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold'
-  },
-  wrapper: {
-  },
+  }
 });
