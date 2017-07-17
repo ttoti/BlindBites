@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Modal, Text, View, StyleSheet, Button, TouchableHighlight} from 'react-native';
+import {Button, Dimensions, Image, Modal, StyleSheet,Text, TouchableHighlight, View} from 'react-native';
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
@@ -7,6 +7,8 @@ import {MKSpinner} from 'react-native-material-kit';
 
 import CardComp from '../components/card/CardComp';
 
+const { height } = Dimensions.get('window');
+const SCREEN_HEIGHT = height;
 const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
 export default class choicesScreen extends Component {
@@ -102,8 +104,8 @@ export default class choicesScreen extends Component {
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
               cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
-              marginTop={30}
-              marginBottom={90}
+              marginTop={SCREEN_HEIGHT * .02}
+              marginBottom={SCREEN_HEIGHT * .20}
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
