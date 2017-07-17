@@ -7,7 +7,7 @@ import {MKSpinner} from 'react-native-material-kit';
 import Swiper from 'react-native-swiper';
 
 import DetailsComp from '../components/info/DetailsComp';
-import ReviewCardComp from '../components/info/ReviewCardComp';
+import ReviewsComp from '../components/info/ReviewsComp';
 import PhotoSwiperComp from '../components/info/PhotoSwiperComp';
 
 const { width } = Dimensions.get('window');
@@ -44,17 +44,6 @@ export default class infoScreen extends Component {
       );
   }
 
-  renderReviews = (reviews) => {
-    const reviewList = reviews.splice(2).map((item, index) => {
-      return <ReviewCardComp key={index} review={item}/>
-    });
-    return(
-      <View>
-        <Text style={styles.detailsText}>Recent reviews:</Text>
-        {reviewList}
-      </View>
-    );
-  }
 
   renderDetails = () =>{
     var hoursIndex, hours;
@@ -76,17 +65,12 @@ export default class infoScreen extends Component {
       }else{
         website = <View></View>
       }
-      if(this.state.resDetails.reviews != null){
-        reviews = this.renderReviews(this.state.resDetails.reviews);
-      }else{
-        reviews = <View></View>
-      }
       return (
         <View>
           <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
           {website}
           <Text style={styles.detailsText}>{"\n"}Hours for today: {"\n"}{hours}{"\n"}</Text>
-          {reviews}
+          <ReviewsComp reviews={this.state.resDetails.reviews}/>
         </View>
       );
     }
@@ -94,37 +78,9 @@ export default class infoScreen extends Component {
 
   renderPhotos = () => {
     if(this.state.resDetails != null){
-      if(this.state.resDetails.photos != null){
-        return (
-          <View style={styles.imageSwiperView}>
-            <Swiper width={SCREEN_WIDTH * .85} style={styles.wrapper} height={240}
-              renderPagination={renderPagination}
-              paginationStyle={{
-                bottom: -23, left: null, right: 10
-              }} loop={false}>
-                {
-                  this.state.resDetails.photos.map((key, index) => {
-                  return(
-                    <View style={styles.slide} key={key} title={<Text>{index}</Text>}>
-                      <Image style={styles.image} source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
-                        key.photo_reference + '&sensor=false&maxheight=500&maxwidth=800&key=' +
-                        Config.GOOGLE_MAPS_API_KEY}} />
-                    </View>
-                  );
-                })
-              }
-            </Swiper>
-          </View>
-        );
-      }else{
-        return (
-          <View style={{alignItems: 'center'}}>
-            <Image style={{width: 200, height: 200, borderRadius: 10}}
-              source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/ef/50/ca/ef50ca35e6a867583bb5deb8e457c3df.jpg"}}
-             />
-          </View>
-        );
-      }
+      return (
+        <PhotoSwiperComp photos={this.state.resDetails.photos} />
+      )
     }else{
       return (
             <View style={styles.emptyView}>
@@ -146,27 +102,6 @@ export default class infoScreen extends Component {
   }
 }
 
-const renderPagination = (index, total, context) => {
-  return (
-    <View style={{
-      position: 'absolute',
-      bottom: 20,
-      right: 45,
-      borderRadius: 5,
-      borderWidth: 2,
-      borderColor: '#323232',
-      backgroundColor: '#323232',
-    }}>
-      <Text style={{ color: 'grey'}}>
-        <Text style={{
-          color: 'white',
-          fontSize: 20
-        }}>{index + 1}</Text>/{total}
-      </Text>
-    </View>
-  )
-}
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -184,13 +119,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: 'white',
   },
-  image: {
-    width,
-    flex: .7,
-  },
-  imageSwiperView: {
-    alignItems: 'center',
-  },
   loadingSpinner: {
     width: 150,
     height: 150,
@@ -201,19 +129,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 20,
   },
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
   text: {
     color: '#fff',
     fontSize: 30,
     fontWeight: 'bold'
-  },
-  detailsText: {
-    fontSize: 15,
-    textAlign: 'center'
   },
   wrapper: {
   },

@@ -14,31 +14,33 @@ export default class CardComp extends Component {
   }
   render() {
     return (
-      <View style={styles.card}>
-        <View style={{alignItems: 'center', paddingTop: 10}}>
-          <CardPhotoComp photo={this.props.card.photos}/>
-        </View>
-        <View style={styles.button}>
-          <Text style={styles.text}>{this.props.card.name}</Text>
-          <Icon.Button name="info" color="#000000" backgroundColor="#B4B4B4" onPress={this.props.callbackModal}>
-            Info
-          </Icon.Button>
-        </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={styles.cardColumn}>
-            <Text style={{textAlign: 'center'}}>Distance: </Text>
-            <DistanceComp srcGPS={this.props.gps} desGPS={this.props.card.geometry.location}/>
+      <View style={styles.outterView}>
+        <View style={styles.card}>
+          <View style={{alignItems: 'center', paddingTop: 10}}>
+            <CardPhotoComp photo={this.props.card.photos}/>
           </View>
-          <View style={styles.cardColumn}>
-            <Text style={{textAlign: 'center'}}>Rating:</Text>
-            <View style={styles.levelContent}>
-              <RatingComp rating={this.props.card.rating}/>
+          <View style={styles.button}>
+            <Text style={styles.text}>{this.props.card.name}</Text>
+            <Icon.Button name="info" color="#000000" backgroundColor="#B4B4B4" onPress={this.props.callbackModal}>
+              Info
+            </Icon.Button>
+          </View>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={styles.cardColumn}>
+              <Text style={{textAlign: 'center'}}>Distance: </Text>
+              <DistanceComp srcGPS={this.props.gps} desGPS={this.props.card.geometry.location}/>
             </View>
-          </View>
-          <View style={styles.cardColumn}>
-            <Text style={{textAlign: 'center'}}>Price Level: </Text>
-            <View style={styles.levelContent}>
-              <PriceLevelComp priceLevel={this.props.card.price_level}/>
+            <View style={styles.cardColumn}>
+              <Text style={{textAlign: 'center'}}>Rating:</Text>
+              <View style={styles.levelContent}>
+                <RatingComp rating={this.props.card.rating}/>
+              </View>
+            </View>
+            <View style={styles.cardColumn}>
+              <Text style={{textAlign: 'center'}}>Price Level: </Text>
+              <View style={styles.levelContent}>
+                <PriceLevelComp priceLevel={this.props.card.price_level}/>
+              </View>
             </View>
           </View>
         </View>
@@ -54,12 +56,18 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#E8E8E8",
     backgroundColor: "white",
+    alignItems: "center",
   },
   button: {
     flex: 1,
     flexDirection: 'row',
     alignItems:'center',
     justifyContent:'center'
+  },
+  outterView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
   text: {
     fontSize: 14,

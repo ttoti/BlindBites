@@ -12,8 +12,8 @@ import infoScreen from './screens/infoScreen';
 const BlindBites = StackNavigator({
   Home: { screen: homeScreen },
   Choices: { screen: choicesScreen },
-  Selection: {screen: selectionScreen},
-  Information: {screen: infoScreen}
+  Selection: { screen: selectionScreen },
+  Information: { screen: infoScreen }
 });
 
 AppRegistry.registerComponent('BlindBites', () => BlindBites);
