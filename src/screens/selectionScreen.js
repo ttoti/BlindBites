@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   map: {
-    width: (SCREEN_WIDTH * .85),
+    width: (SCREEN_WIDTH * .80),
     height: 250,
     borderRadius: 20,
     borderWidth: 1,

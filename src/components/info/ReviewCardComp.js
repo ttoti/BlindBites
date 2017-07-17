@@ -18,6 +18,9 @@ export default class ReviewCardComp extends Component {
           <Image style={styles.cardImage} source={{uri: review.profile_photo_url}} />
           <Text style={theme.cardContentStyle}>By: {review.author_name}</Text>
         </View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={theme.cardContentStyle}>Posted: {review.relative_time_description}</Text>
+        </View>
         <Text style={theme.cardContentStyle}>
           {review.text}
         </Text>
