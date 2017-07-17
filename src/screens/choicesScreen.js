@@ -101,7 +101,7 @@ export default class choicesScreen extends Component {
               }}
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
-              cards={this.state.cards}
+              cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
               marginTop={30}
               marginBottom={90}
               renderCard={this.renderCard}
