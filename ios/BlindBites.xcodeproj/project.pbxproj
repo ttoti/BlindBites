@@ -1365,6 +1365,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tohernandez.BlindBites;
 				PRODUCT_NAME = BlindBites;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1391,6 +1392,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.tohernandez.BlindBites;
 				PRODUCT_NAME = BlindBites;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
