@@ -24,9 +24,9 @@ export default class CardComp extends Component {
           </View>
           <View style={styles.button}>
             <Text style={styles.text}>{this.props.card.name}</Text>
-            <TouchableHighlight onPress={() => this.props.infoCallback()}>
-              <View style={styles.buttonView}>
-                <Icon name="info" size={25} color="#FFFFFF"/>
+            <TouchableHighlight style={styles.buttonView} onPress={() => this.props.infoCallback()}>
+              <View>
+                <Icon name="info" size={30} color="#FFFFFF"/>
               </View>
             </TouchableHighlight>
           </View>
@@ -73,11 +73,11 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     backgroundColor: "#B4B4B4",
-    width: 25,
+    width: 40,
     alignItems: 'center',
     borderWidth: .5,
     borderColor: "#000000",
-    borderRadius: 30,
+    borderRadius: 50,
   },
   outterView: {
     flex: 1,
