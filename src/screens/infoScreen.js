@@ -57,8 +57,10 @@ export default class infoScreen extends Component {
     return (
      <View style={styles.container}>
       <ScrollView style={styles.scrollView}>
-        {photo}
-        {details}
+        <View style={styles.innerView}>
+          {photo}
+          {details}
+        </View>
       </ScrollView>
      </View>
    );
@@ -81,6 +83,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 24,
     color: 'white',
+  },
+  innerView: {
+    paddingTop: 10,
   },
   loadingSpinner: {
     width: 150,
