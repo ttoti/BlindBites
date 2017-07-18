@@ -55,9 +55,9 @@ export default class choicesScreen extends Component {
   swipeRight = () => {
     const { navigate } = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-
-    this.swipeBack();
+    
     navigate('Selection', {card: currentCard});
+    this.swipeBack();
   };
 
   swipeLeft = () => {
