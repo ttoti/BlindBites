@@ -102,7 +102,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 def pass = getPassword("tomas","android_keystore")
 
 android {
@@ -110,7 +110,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.blindbites"
+        applicationId "com.tohernandez.blindbites"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

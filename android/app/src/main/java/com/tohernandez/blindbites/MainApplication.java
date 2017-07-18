@@ -1,4 +1,4 @@
-package com.blindbites;
+package com.tohernandez.blindbites;
 
 import android.app.Application;
 
