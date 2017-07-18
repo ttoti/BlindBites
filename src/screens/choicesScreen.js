@@ -30,14 +30,13 @@ export default class choicesScreen extends Component {
     title: 'Choices',
   };
 
-  renderCard = (card) => { return (<CardComp card={card} callbackModal={this.callModal} gps={[this.state.latitude, this.state.longitude]}/>) };
+  renderCard = (card) => { return (<CardComp card={card} infoCallback={this.callInfo} gps={[this.state.latitude, this.state.longitude]}/>) };
 
   onSwipedAllCards = () => this.setState({ swipedAllCards: true });
 
-  callModal = () => {
+  callInfo = () => {
     const {navigate} = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-
     navigate('Information', {card: currentCard});
   }
 
@@ -104,8 +103,7 @@ export default class choicesScreen extends Component {
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
               cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
-              marginTop={SCREEN_HEIGHT * .02}
-              marginBottom={SCREEN_HEIGHT * .20}
+
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
