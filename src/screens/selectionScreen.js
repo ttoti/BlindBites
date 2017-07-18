@@ -5,6 +5,9 @@ import Communications from 'react-native-communications';
 import Config from 'react-native-config';
 import MapView from 'react-native-maps';
 
+import SelDetailsComp from '../components/selection/SelDetailsComp';
+import MapViewComp from '../components/selection/MapViewComp';
+
 const { width } = Dimensions.get('window');
 const SCREEN_WIDTH = width;
 
