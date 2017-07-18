@@ -1,15 +1,13 @@
 'use strict';
 import React, {Component} from 'react';
-import {Button ,Dimensions, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Communications from 'react-native-communications';
+import {Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
-import MapView from 'react-native-maps';
+import {MKSpinner} from 'react-native-material-kit';
 
 import SelDetailsComp from '../components/selection/SelDetailsComp';
 import MapViewComp from '../components/selection/MapViewComp';
 
-const { width } = Dimensions.get('window');
-const SCREEN_WIDTH = width;
+const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
 export default class infoScreen extends Component {
     constructor(props) {
@@ -40,70 +38,28 @@ export default class infoScreen extends Component {
            }
       );
   }
-  openGPS = (lat, lng) =>{
-    var scheme = Platform.OS === 'ios' ? 'http://maps.apple.com/?daddr=' : 'geo:'
-    var url = scheme + lat + ',' + lng;
-    console.log(url);
-    Linking.openURL(url);
-  }
-  renderDetails = () => {
+  render() {
     const { params } = this.props.navigation.state;
-    if(this.state.resDetails != null){
-      var details = this.state.resDetails;
-      var openNow = null;
-      if(details.opening_hours.open_now){
-        openNow = <Text style={{color: 'green'}}>Open Now</Text>
-      }else{
-        openNow = <Text style={{color: 'red'}}>Currently closed</Text>
-      }
-      console.log(details);
-      return (
-        <View>
-          <Text style={{fontSize: 20, textAlign: 'center'}}>{params.card.name}</Text>
-          <View style={{alignItems: 'center'}}>
-            <Text>{"\n"}Phone number:</Text>
-            <TouchableOpacity onPress={() => Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)}>
-              <Text>{details.formatted_phone_number}{"\n"}</Text>
-            </TouchableOpacity>
+    var selectionView;
+    if(this.state.resDetails){
+      selectionView = (
+        <ScrollView style={styles.scrollView}>
+          <View style={{paddingTop: 20}}>
+            <SelDetailsComp name={params.card.name} resDetails={this.state.resDetails} gps={params.card.geometry.location}/ >
+            <MapViewComp gps={params.card.geometry.location}/>
           </View>
-          <View style={{alignItems: 'center'}}>
-            {openNow}
-            <Text>{"\n"}Address:</Text>
-            <TouchableOpacity onPress={() =>this.openGPS(params.card.geometry.location.lat, params.card.geometry.location.lng)}>
-              <Text>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
-            </TouchableOpacity>
-          </View>
+        </ScrollView>
+      );
+    }else{
+      selectionView = (
+        <View style={styles.emptyView}>
+          <SingleColorSpinner style={styles.loadingSpinner} strokeColor="white" strokeWidth={4} />
         </View>
       );
     }
-  }
-  render() {
-    const { params } = this.props.navigation.state;
     return (
      <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        {this.renderDetails()}
-        <View style={styles.mapView}>
-          <TouchableOpacity onPress={() => this.openGPS(params.card.geometry.location.lat, params.card.geometry.location.lng)}>
-          <MapView
-            style={styles.map}
-            mapType="hybrid"
-            scrollEnabled={false}
-            initialRegion={{
-            latitude: params.card.geometry.location.lat,
-            longitude: params.card.geometry.location.lng,
-            latitudeDelta: 0.0082,
-            longitudeDelta: 0.0041,
-          }}>
-            <MapView.Marker
-              coordinate={{
-                latitude: params.card.geometry.location.lat,
-                longitude: params.card.geometry.location.lng
-              }}/>
-          </MapView>
-          </TouchableOpacity>
-        </View>
-      </ScrollView>
+      {selectionView}
      </View>
    );
   }
@@ -113,17 +69,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FF7F7F',
+  },
+  emptyView: {
+    flex: 1,
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  map: {
-    width: (SCREEN_WIDTH * .80),
-    height: 250,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: 'grey',
-  },
-  mapView: {
-    alignItems: 'center'
+  loadingSpinner: {
+    width: 150,
+    height: 150,
   },
   scrollView: {
     flex: .9,
