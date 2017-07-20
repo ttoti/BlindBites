@@ -55,7 +55,7 @@ export default class choicesScreen extends Component {
   swipeRight = () => {
     const { navigate } = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-    
+
     navigate('Selection', {card: currentCard});
     this.swipeBack();
   };
@@ -116,29 +116,31 @@ export default class choicesScreen extends Component {
     }
   }
   componentWillMount(){
-    navigator.geolocation.getCurrentPosition((position) => {
-      fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
-        position['coords']['latitude'] + ',' + position['coords']['longitude'] +
-        '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
-        method:'GET',
-        headers: {
-          'Accept': 'application/json'
-        }})
-        .then((response) => response.json())
-        .then((responseJson) =>{
-          var shuffledCards = this.shuffleResults(responseJson.results);
-          this.setState({cards : shuffledCards});
-          this.setState({latitude: position['coords']['latitude'], longitude: position['coords']['longitude']})
-          console.log(this.state.cards);
-        })
-        .catch((error) =>{
-          console.error(error);
-        });
+    if(this.state.cards[0] == "0"){
+      navigator.geolocation.getCurrentPosition((position) => {
+        fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
+          position['coords']['latitude'] + ',' + position['coords']['longitude'] +
+          '&radius=3000&types=restaurant&key=' + Config.GOOGLE_MAPS_API_KEY, {
+          method:'GET',
+          headers: {
+            'Accept': 'application/json'
+          }})
+          .then((response) => response.json())
+          .then((responseJson) =>{
+            var shuffledCards = this.shuffleResults(responseJson.results);
+            this.setState({cards : shuffledCards});
+            this.setState({latitude: position['coords']['latitude'], longitude: position['coords']['longitude']})
+            console.log(this.state.cards);
+          })
+          .catch((error) =>{
+            console.error(error);
+          });
 
-    },
-    (error)=>{
-      console.log(error);
-    });
+      },
+      (error)=>{
+        console.log(error);
+      });
+    }
   }
   render() {
     return (
