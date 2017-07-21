@@ -12,7 +12,7 @@ export default class HomeScreen extends Component {
     const {navigate}  =  this.props.navigation;
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>BlindBites</Text>
+            <Text style={styles.title}>Tap to explore local food choices</Text>
             <ColorFab
                 backgroundColor={'#F9F9EA'}
                 shadowRadius={2}
@@ -37,9 +37,8 @@ var styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 60,
+    fontSize: 24,
     paddingBottom: 70,
-    fontStyle: 'italic',
   },
   button: {
     height: 250,
