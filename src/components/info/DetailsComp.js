@@ -1,6 +1,6 @@
 'use strict';
 import React, {Component} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Linking, Text, View, StyleSheet} from 'react-native';
 import ReviewsComp from './ReviewsComp';
 
 export default class DetailsComp extends Component {
