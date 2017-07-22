@@ -12,7 +12,7 @@ export default class CardPhotoComp extends Component {
     var photoView = null;
 
     if(this.props.photo){
-      photoView = <FastImage style={{width : 200, height: 200, borderRadius: 10}}
+      photoView = <FastImage style={{width : 225, height: 225, borderRadius: 10}}
           source={{
             uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
                     this.props.photo[0].photo_reference +
@@ -21,7 +21,7 @@ export default class CardPhotoComp extends Component {
             priority: FastImage.priority.normal,
             }}/>
     }else{
-      photoView = <Image style={{width: 200, height: 200, borderRadius: 10}} source={require('../../assets/noImage.png')} />;
+      photoView = <Image style={{width: 225, height: 225, borderRadius: 10}} source={require('../../assets/noImage.png')} />;
     }
     return (
       <View>
