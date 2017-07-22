@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {Dimensions, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {MKButton, MKColor} from 'react-native-material-kit';
 
 import CardPhotoComp from './CardPhotoComp';
 import DistanceComp from './DistanceComp';
@@ -10,6 +11,7 @@ import RatingComp from '../common/RatingComp';
 
 const { height } = Dimensions.get('window');
 const SCREEN_HEIGHT = height;
+const ColorFab = MKButton.coloredFab().build();
 
 export default class CardComp extends Component {
   constructor(props) {
@@ -19,18 +21,29 @@ export default class CardComp extends Component {
     return (
       <View style={styles.outterView}>
         <View style={styles.card}>
+
           <View style={{alignItems: 'center', paddingTop: 10}}>
             <CardPhotoComp photo={this.props.card.photos}/>
           </View>
-          <View style={styles.button}>
+          <View style={{flex: .30, flexDirection: 'row', paddingTop: 15}}>
             <Text style={styles.text}>{this.props.card.name}</Text>
-            <TouchableHighlight style={styles.buttonView} onPress={() => this.props.infoCallback()}>
-              <View>
-                <Icon name="info" size={30} color="#FFFFFF"/>
-              </View>
-            </TouchableHighlight>
+            <View style={styles.button}>
+            <ColorFab
+                backgroundColor={'#FF7F7F'}
+                shadowRadius={1}
+                shadowOffset={{width:0, height:1}}
+                shadowOpacity={.4}
+                shadowColor="grey"
+                style={styles.button}
+                onPress={() => this.props.infoCallback()}
+                >
+                <View>
+                  <Icon name="info" size={25} color="#FFFFFF"/>
+                </View>
+            </ColorFab>
+            </View>
           </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: .5, flexDirection: 'row'}}>
             <View style={styles.cardColumn}>
               <Text style={{textAlign: 'center'}}>Distance: </Text>
               <DistanceComp srcGPS={this.props.gps} desGPS={this.props.card.geometry.location}/>
@@ -57,36 +70,30 @@ export default class CardComp extends Component {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  button: {
+    height: 30,
+    width: 30,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  outterView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: SCREEN_HEIGHT * .02,
     marginBottom: SCREEN_HEIGHT * .20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#E8E8E8",
-    backgroundColor: "white",
-    alignItems: "center",
-  },
-  button: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems:'center',
-    justifyContent:'center'
-  },
-  buttonView: {
-    backgroundColor: "#B4B4B4",
-    width: 40,
-    alignItems: 'center',
-    borderWidth: .5,
-    borderColor: "#000000",
-    borderRadius: 50,
-  },
-  outterView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    borderColor:'#E8E8E8',
+    backgroundColor: 'white',
   },
   text: {
-    fontSize: 14,
-    backgroundColor: "transparent",
+    fontSize: 18,
+    backgroundColor: 'transparent',
     paddingRight: 10,
     paddingTop: 5,
   },
