@@ -10,18 +10,18 @@ export default class CardPhotoComp extends Component {
   }
   render() {
     var photoView = null;
+
     if(this.props.photo){
       photoView = <FastImage style={{width : 200, height: 200, borderRadius: 10}}
           source={{
             uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
                     this.props.photo[0].photo_reference +
-                    '&sensor=false&maxheight=500&maxwidth=800&key=' + Config.GOOGLE_MAPS_API_KEY,
+                    '&sensor=false&maxheight=400&maxwidth=400&key=' + Config.GOOGLE_MAPS_API_KEY,
             headers:{},
             priority: FastImage.priority.normal,
             }}/>
     }else{
-      photoView = <Image style={{width: 200, height: 200, borderRadius: 10}}
-        source={{uri: "https://s-media-cache-ak0.pinimg.com/736x/ef/50/ca/ef50ca35e6a867583bb5deb8e457c3df.jpg"}} />;
+      photoView = <Image style={{width: 200, height: 200, borderRadius: 10}} source={require('../../assets/noImage.png')} />;
     }
     return (
       <View>
