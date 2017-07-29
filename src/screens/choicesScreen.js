@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dimensions, Image, Modal, StyleSheet,Text, TouchableHighlight, View} from 'react-native';
+import {Button, Dimensions, Image, Modal, Platform, StyleSheet,Text, TouchableHighlight, View} from 'react-native';
 import Config from 'react-native-config'
 import Swiper from 'react-native-deck-swiper';
 import Toast, {DURATION} from 'react-native-easy-toast'
@@ -37,7 +37,12 @@ export default class choicesScreen extends Component {
   callInfo = () => {
     const {navigate} = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-    navigate('Information', {card: currentCard});
+
+    if(Platform.OS === 'ios'){
+      navigate('Information', {card: currentCard});
+    }else{
+      //TODO: Add info screen for android to fix jank
+    }
   }
 
   swipeBack = () => {
@@ -55,14 +60,13 @@ export default class choicesScreen extends Component {
   swipeRight = () => {
     const { navigate } = this.props.navigation;
     var currentCard = this.state.cards[this.state.currentCardIndex];
-
     navigate('Selection', {card: currentCard});
     this.swipeBack();
   };
 
   swipeLeft = () => {
     //When card swiped left, remove
-    this.refs.toast.show('Card removed',DURATION.LENGTH_LONG);
+    this.refs.toast.show('Card removed', DURATION.LENGTH_LONG);
     this.state.currentCardIndex++;
   };
 

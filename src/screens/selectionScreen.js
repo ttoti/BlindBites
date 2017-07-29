@@ -90,6 +90,6 @@ const styles = StyleSheet.create({
     margin: 30,
     paddingRight: 20,
     paddingLeft: 20,
-    paddingTop: 35,
+    paddingTop: 30,
   }
 });

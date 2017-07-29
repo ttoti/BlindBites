@@ -37,7 +37,7 @@ var styles = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontSize: 24,
+    fontSize: 40,
     paddingBottom: 70,
   },
   button: {

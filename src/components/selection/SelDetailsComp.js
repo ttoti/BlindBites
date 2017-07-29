@@ -25,15 +25,15 @@ export default class SelDetailsComp extends Component {
     return (
       <View>
         <Text style={{fontSize: 25, textAlign: 'center'}}>{this.props.name}</Text>
-        <View style={{alignItems: 'center'}}>
+        <View style={{paddingTop: 10, alignItems: 'center'}}>
+          {openNow}
           <Text>{"\n"}Phone number:</Text>
           <TouchableOpacity onPress={() => Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)}>
             <Text style={{color: '#FF7F7F'}}>{details.formatted_phone_number}{"\n"}</Text>
           </TouchableOpacity>
         </View>
         <View style={{alignItems: 'center'}}>
-          {openNow}
-          <Text>{"\n"}Address:</Text>
+          <Text>Address:</Text>
           <TouchableOpacity onPress={() =>this.openGPS(this.props.gps.lat, this.props.gps.lng)}>
             <Text style={{color: '#FF7F7F'}}>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
           </TouchableOpacity>
