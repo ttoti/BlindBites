@@ -43,12 +43,12 @@ export default class infoScreen extends Component {
     var selectionView;
     if(this.state.resDetails){
       selectionView = (
-        <ScrollView style={styles.scrollView}>
+        <View style={styles.view}>
           <View style={{paddingTop: 20}}>
             <SelDetailsComp name={params.card.name} resDetails={this.state.resDetails} gps={params.card.geometry.location}/ >
             <MapViewComp gps={params.card.geometry.location}/>
           </View>
-        </ScrollView>
+        </View>
       );
     }else{
       selectionView = (
@@ -69,6 +69,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FF7F7F',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   emptyView: {
     flex: 1,
@@ -80,10 +83,13 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
   },
-  scrollView: {
-    flex: .9,
+  view: {
+    flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    margin: 20,
+    margin: 30,
+    paddingRight: 20,
+    paddingLeft: 20,
+    paddingTop: 35,
   }
 });

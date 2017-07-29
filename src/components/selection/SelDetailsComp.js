@@ -24,18 +24,18 @@ export default class SelDetailsComp extends Component {
     }
     return (
       <View>
-        <Text style={{fontSize: 20, textAlign: 'center'}}>{this.props.name}</Text>
+        <Text style={{fontSize: 25, textAlign: 'center'}}>{this.props.name}</Text>
         <View style={{alignItems: 'center'}}>
           <Text>{"\n"}Phone number:</Text>
           <TouchableOpacity onPress={() => Communications.phonecall(details.international_phone_number.replace(/[^0-9]/g, ""), false)}>
-            <Text>{details.formatted_phone_number}{"\n"}</Text>
+            <Text style={{color: '#FF7F7F'}}>{details.formatted_phone_number}{"\n"}</Text>
           </TouchableOpacity>
         </View>
         <View style={{alignItems: 'center'}}>
           {openNow}
           <Text>{"\n"}Address:</Text>
           <TouchableOpacity onPress={() =>this.openGPS(this.props.gps.lat, this.props.gps.lng)}>
-            <Text>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
+            <Text style={{color: '#FF7F7F'}}>{details.formatted_address.split(",").slice(0, 2).join(",")}</Text>
           </TouchableOpacity>
         </View>
       </View>
