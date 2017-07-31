@@ -11,6 +11,7 @@
 
 import React, {Component} from 'react';
 import { StyleSheet, View, Animated, Dimensions, Text, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const DURATION = {
     LENGTH_LONG: 1250,
@@ -29,6 +30,7 @@ export default class Toast extends Component {
             isShow: false,
             text: '',
             opacityValue: new Animated.Value(this.props.opacity),
+            disabled: false,
         }
     }
 
@@ -73,6 +75,7 @@ export default class Toast extends Component {
                 this.isShow = false;
             });
         }, delay);
+      this.setState({disabled: false});
     }
 
     componentWillUnmount() {
@@ -101,9 +104,16 @@ export default class Toast extends Component {
                     style={[styles.content, { opacity: this.state.opacityValue }, this.props.style]}
                     >
                     <Text style={this.props.textStyle}>{this.state.text}</Text>
-                    <TouchableOpacity onPress={ () => {this.props.undoCallBack(); this.close();} }>
-                      <View>
-                        <Text>Undo</Text>
+                    <TouchableOpacity
+                        disabled={this.state.disabled} style={{paddingTop: 10}}
+                        onPress={ () => {this.setState({disabled: true}); this.props.undoCallBack();} }>
+                      <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
+                        <View style={{width: 40}}>
+                          <Text style={{fontSize: 14, color: '#FFFFFF'}}>Undo</Text>
+                        </View>
+                        <View>
+                          <Icon name="undo" size={14} color="#FFFFFF"/>
+                        </View>
                       </View>
                     </TouchableOpacity>
                 </Animated.View>
@@ -123,6 +133,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 5,
         padding: 10,
+        flex: 1,
+        flexDirection: 'column',
     },
     text: {
         color: 'white'
