@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Button, Dimensions, Image, Modal, Platform, StyleSheet,Text, TouchableHighlight, View} from 'react-native';
-import Config from 'react-native-config'
+import Config from 'react-native-config';
 import Swiper from 'react-native-deck-swiper';
-import Toast, {DURATION} from 'react-native-easy-toast'
 import {MKSpinner} from 'react-native-material-kit';
 
 import CardComp from '../components/card/CardComp';
+import Toast, {DURATION} from '../components/common/Toast';
 
 const { height } = Dimensions.get('window');
 const SCREEN_HEIGHT = height;
@@ -44,7 +44,9 @@ export default class choicesScreen extends Component {
       //TODO: Add info screen for android to fix jank
     }
   }
-
+  undoDelete = () => {
+    console.log("undo");
+  }
   swipeBack = () => {
     if (!this.state.isSwipingBack) {
       this.setIsSwipingBack(true, () => {
@@ -66,7 +68,7 @@ export default class choicesScreen extends Component {
 
   swipeLeft = () => {
     //When card swiped left, remove
-    this.refs.toast.show('Card removed', DURATION.LENGTH_LONG);
+    this.refs.toast.show('Card removed', DURATION.LENGTH_SHORT);
     this.state.currentCardIndex++;
   };
 
@@ -107,7 +109,6 @@ export default class choicesScreen extends Component {
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
               cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
-
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
@@ -159,6 +160,7 @@ export default class choicesScreen extends Component {
           fadeOutDuration={1000}
           opacity={0.8}
           textStyle={{color:'white'}}
+          undoCallBack={this.undoDelete}
         />
       </View>
    );
