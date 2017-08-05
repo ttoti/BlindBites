@@ -18,10 +18,16 @@ export default class CardComp extends Component {
     super(props);
   }
   render() {
+    var photo;
+    if(this.props.card.photos){
+      photo = <CardPhotoComp photo={this.props.card.photos[0].photo_reference.toString()}/>
+    }else{
+      photo = <CardPhotoComp photo={this.props.card.photos}/>
+    }
     return (
       <View style={styles.outterView}>
         <View style={{alignItems: 'center', paddingTop: 20}}>
-          <CardPhotoComp photo={this.props.card.photos}/>
+          {photo}
         </View>
         <View style={{flex: .30, flexDirection: 'row', paddingTop: 15}}>
           <Text style={styles.text}>{this.props.card.name}</Text>

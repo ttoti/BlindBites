@@ -18,7 +18,7 @@ export default class CardPhotoComp extends Component {
       photoView = <FastImage style={{width : 225, height: 225, borderRadius: 10}}
           source={{
             uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
-                    this.props.photo[0].photo_reference +
+                    this.props.photo +
                     '&sensor=false&maxheight=400&maxwidth=400&key=' + Config.GOOGLE_MAPS_API_KEY,
             headers:{},
             priority: FastImage.priority.high,
