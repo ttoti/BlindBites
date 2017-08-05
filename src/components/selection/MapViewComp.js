@@ -14,7 +14,6 @@ export default class MapViewComp extends Component {
   openGPS = (lat, lng) =>{
     var scheme = Platform.OS === 'ios' ? 'http://maps.apple.com/?daddr=' : 'geo:'
     var url = scheme + lat + ',' + lng;
-    console.log(url);
     Linking.openURL(url);
   }
 
