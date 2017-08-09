@@ -1,11 +1,12 @@
 'use strict';
 import React, {Component} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Config from 'react-native-config';
 import {MKSpinner} from 'react-native-material-kit';
-
 const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
+const { height } = Dimensions.get('window');
+const SCREEN_HEIGHT = height;
 
 export default class CardPhotoComp extends Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class CardPhotoComp extends Component {
     var photoView = <SingleColorSpinner style={styles.loadingSpinner} strokeColor="grey" strokeWidth={4} />;
 
     if(this.props.photo){
-      photoView = <FastImage style={{width : 225, height: 225, borderRadius: 10}}
+      photoView = <FastImage style={{width : SCREEN_HEIGHT * .32, height: SCREEN_HEIGHT * .32, borderRadius: 10}}
           source={{
             uri: 'https://maps.googleapis.com/maps/api/place/photo?photoreference=' +
                     this.props.photo +
@@ -24,10 +25,10 @@ export default class CardPhotoComp extends Component {
             priority: FastImage.priority.high,
             }}/>
     }else{
-      photoView = <Image style={{width: 225, height: 225, borderRadius: 10}} source={require('../../assets/noImage.png')} />;
+      photoView = <Image style={{width: SCREEN_HEIGHT * .32, height: SCREEN_HEIGHT * .32, borderRadius: 10}} source={require('../../assets/noImage.png')} />;
     }
     return (
-      <View style={{width: 225, height: 225, borderRadius: 10}}>
+      <View style={{width: SCREEN_HEIGHT * .32, height: SCREEN_HEIGHT * .32, borderRadius: 10}}>
         {photoView}
       </View>
     );
