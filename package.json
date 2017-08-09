@@ -21,7 +21,9 @@
     "react-native-star-rating": "^1.0.7",
     "react-native-swiper": "^1.5.4",
     "react-native-vector-icons": "^4.2.0",
-    "react-navigation": "^1.0.0-beta.12"
+    "react-navigation": "^1.0.0-beta.12",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
@@ -34,11 +36,15 @@
   },
   "jest": {
     "preset": "react-native",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-navigation)"
-    ],
     "setupFiles": [
       "./__tests__/setup.js"
+    ],
+    "modulePathIgnorePattersn": [
+      "/node_modules/.*/react-native/",
+      "/node_modules/.*/react/"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
     ]
   }
 }
