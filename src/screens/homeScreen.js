@@ -34,7 +34,7 @@ export default class HomeScreen extends Component {
               </TouchableOpacity>
             </View>
             <View style={{flex: .5, alignItems: 'flex-end', paddingRight: 10}}>
-              <TouchableOpacity onPress={() => console.log('about')}>
+              <TouchableOpacity onPress={() => navigate('About')}>
                 <Icon name="question-circle" size={30} color="#FFFFFF"/>
               </TouchableOpacity>
             </View>

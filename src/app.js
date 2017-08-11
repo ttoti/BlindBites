@@ -16,15 +16,17 @@ import homeScreen from './screens/homeScreen';
 import choicesScreen from './screens/choicesScreen';
 import selectionScreen from './screens/selectionScreen';
 import infoScreen from './screens/infoScreen';
+import aboutScreen from './screens/aboutScreen';
 
 const BlindBites = StackNavigator({
   Home: { screen: homeScreen },
   Choices: { screen: choicesScreen },
   Selection: { screen: selectionScreen },
-  Information: { screen: infoScreen }
+  Information: { screen: infoScreen },
+  About: {screen: aboutScreen}
 });
 
-export default class Root extends Component {
+export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
@@ -34,4 +36,4 @@ export default class Root extends Component {
   }
 }
 
-AppRegistry.registerComponent('BlindBites', () => Root);
+AppRegistry.registerComponent('BlindBites', () => App);
