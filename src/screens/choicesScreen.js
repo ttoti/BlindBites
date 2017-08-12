@@ -68,9 +68,14 @@ export default class choicesScreen extends Component {
 
   swipeLeft = () => {
     //When card swiped left, remove
-    this.refs.toast.show('Card removed', DURATION.LENGTH_SHORT);
+    this.refs.undoToast.show('Card removed', DURATION.LENGTH_SHORT);
     this.state.currentCardIndex++;
   };
+  swipeTop = () => {
+    console.log("Saved");
+    this.refs.saveToast.show('Card saved', DURATION.LENGTH_SHORT);
+    this.state.currentCardIndex++;
+  }
 
   shuffleResults = (results) => {
     //Shuffles and returns the results
@@ -108,12 +113,12 @@ export default class choicesScreen extends Component {
               }}
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
+              onSwipedTop={this.swipeTop}
               cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
               disableBottomSwipe={true}
-              disableTopSwipe={true}
               animateOpacity={true}
             />
           );
@@ -152,7 +157,7 @@ export default class choicesScreen extends Component {
       <View style={styles.container}>
         {this.renderSwiper()}
         <Toast
-          ref="toast"
+          ref="undoToast"
           style={{backgroundColor:'grey'}}
           position='bottom'
           positionValue={200}
@@ -161,6 +166,16 @@ export default class choicesScreen extends Component {
           opacity={0.8}
           textStyle={{color:'white'}}
           undoCallBack={this.undoDelete}
+        />
+        <Toast
+          ref="saveToast"
+          style={{backgroundColor:'grey'}}
+          position='bottom'
+          positionValue={200}
+          fadeInDuration={750}
+          fadeOutDuration={1000}
+          opacity={0.8}
+          textStyle={{color:'white'}}
         />
       </View>
    );

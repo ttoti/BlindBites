@@ -83,7 +83,7 @@ export default class Toast extends Component {
     }
 
     render() {
-        let pos;
+        let pos, undoButton;
         switch (this.props.position) {
             case 'top':
                 pos = this.props.positionValue;
@@ -95,7 +95,23 @@ export default class Toast extends Component {
                 pos = height - this.props.positionValue;
                 break;
         }
-
+        if(this.props.undoCallBack){
+          undoButton =
+          <TouchableOpacity
+              disabled={this.state.disabled} style={{paddingTop: 10}}
+              onPress={ () => {this.setState({disabled: true}); this.props.undoCallBack();} }>
+            <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
+              <View style={{width: 40}}>
+                <Text style={{fontSize: 14, color: '#FFFFFF'}}>Undo</Text>
+              </View>
+              <View>
+                <Icon name="undo" size={14} color="#FFFFFF"/>
+              </View>
+            </View>
+          </TouchableOpacity>
+        }else{
+          undoButton = <View></View>
+        }
         const view = this.state.isShow ?
             <View
                 style={[styles.container, { top: pos }]}
@@ -104,18 +120,7 @@ export default class Toast extends Component {
                     style={[styles.content, { opacity: this.state.opacityValue }, this.props.style]}
                     >
                     <Text style={this.props.textStyle}>{this.state.text}</Text>
-                    <TouchableOpacity
-                        disabled={this.state.disabled} style={{paddingTop: 10}}
-                        onPress={ () => {this.setState({disabled: true}); this.props.undoCallBack();} }>
-                      <View style={{flex:1, flexDirection: 'row', justifyContent: 'center'}}>
-                        <View style={{width: 40}}>
-                          <Text style={{fontSize: 14, color: '#FFFFFF'}}>Undo</Text>
-                        </View>
-                        <View>
-                          <Icon name="undo" size={14} color="#FFFFFF"/>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
+                    {undoButton}
                 </Animated.View>
             </View> : null;
         return view;
