@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
-import Modal from 'react-native-modal'
+import Modal from 'react-native-modal';
+import * as counterActions from '../actions/counterActions';
 
-export default class aboutScreen extends Component {
+import Counter from '../components/common/counter';
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+
+class aboutScreen extends Component {
   state = {
     isModalVisible: false
   }
@@ -12,6 +17,7 @@ export default class aboutScreen extends Component {
   _hideModal = () => this.setState({ isModalVisible: false })
 
   render () {
+    const {state, actions} = this.props;
     return (
       <View style={{ flex: 1 }}>
         <TouchableOpacity onPress={this._showModal}>
@@ -25,8 +31,16 @@ export default class aboutScreen extends Component {
             </TouchableOpacity>
           </View>
         </Modal>
+        <Counter counter={state.count} {...actions} />
       </View>
     )
   }
 
 }
+export default connect(state => ({
+    state: state.counter
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(counterActions, dispatch)
+  })
+)(aboutScreen);
