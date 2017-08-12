@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export default function counter(state = initialState, action = {}) {
-  switch (action.type) {
+  switch (action.types) {
     case types.INCREMENT:
       return {
         ...state,

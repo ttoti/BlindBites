@@ -7,11 +7,16 @@ import {MKSpinner} from 'react-native-material-kit';
 import CardComp from '../components/card/CardComp';
 import Toast, {DURATION} from '../components/common/Toast';
 
+import * as cardActions from '../actions/cardActions';
+
+import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+
 const { height } = Dimensions.get('window');
 const SCREEN_HEIGHT = height;
 const SingleColorSpinner = MKSpinner.singleColorSpinner().build();
 
-export default class choicesScreen extends Component {
+class choicesScreen extends Component {
     constructor(props) {
     super(props);
     this.state = {
@@ -92,6 +97,7 @@ export default class choicesScreen extends Component {
   };
 
   renderSwiper = () => {
+    const {state, actions} = this.props;
     if (this.state.swipedAllCards) {
       return (
         <View style={styles.emptyView}>
@@ -99,7 +105,7 @@ export default class choicesScreen extends Component {
         </View>
         );
     } else {
-        if(this.state.cards[0] === "0"){
+        if(state.cards == null){
           return (
             <View style={styles.emptyView}>
               <SingleColorSpinner style={styles.loadingSpinner} strokeColor="white" strokeWidth={4} />
@@ -114,7 +120,7 @@ export default class choicesScreen extends Component {
               onSwipedRight={this.swipeRight}
               onSwipedLeft={this.swipeLeft}
               onSwipedTop={this.swipeTop}
-              cards={this.state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
+              cards={state.cards.slice(this.state.currentCardIndex, this.state.cards.len)}
               renderCard={this.renderCard}
               onSwipedAll={this.onSwipedAllCards}
               backgroundColor={"#FF7F7F"}
@@ -126,7 +132,8 @@ export default class choicesScreen extends Component {
     }
   }
   componentWillMount(){
-    if(this.state.cards[0] == "0"){
+    const { state, addCards, actions } = this.props;
+    if(state.cards == null){
       navigator.geolocation.getCurrentPosition((position) => {
         fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' +
           position['coords']['latitude'] + ',' + position['coords']['longitude'] +
@@ -140,7 +147,7 @@ export default class choicesScreen extends Component {
             var shuffledCards = this.shuffleResults(responseJson.results);
             this.setState({cards : shuffledCards});
             this.setState({latitude: position['coords']['latitude'], longitude: position['coords']['longitude']})
-            console.log(this.state.cards);
+            actions.addCards(shuffledCards);
           })
           .catch((error) =>{
             console.error(error);
@@ -203,3 +210,11 @@ const styles = StyleSheet.create({
     height: 150,
   },
 });
+
+export default connect(state => ({
+    state: state.cards
+  }),
+  (dispatch) => ({
+    actions: bindActionCreators(cardActions, dispatch)
+  })
+)(choicesScreen);
